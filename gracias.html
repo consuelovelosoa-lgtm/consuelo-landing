@@ -9,6 +9,9 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2218%22 fill=%22%23e11d48%22/></svg>">
   <style>
+    /* Overrides SOLO para esta página de gracias: hace visibles los botones secundarios sobre fondo blanco */
+    .btn.secondary { color:#111827; background:#F9FAFB; border-color:#E5E7EB; }
+    .btn.secondary:hover { background:#F3F4F6; }
     .center { text-align:center }
     .stack { display:flex; gap:12px; justify-content:center; flex-wrap:wrap }
     .card-hero { max-width:720px; margin:0 auto; }
@@ -23,7 +26,9 @@
 
         <div class="stack" style="margin-top:14px">
           <a class="btn" href="/">Volver al inicio</a>
-          <a class="btn secondary" href="https://wa.me/56900000000?text=Hola%2C%20me%20sum%C3%A9%20al%20formulario%20de%20veloso56.cl%20y%20quiero%20apoyar%20la%20campaña" target="_blank" rel="noreferrer">Escríbenos por WhatsApp</a>
+          <a class="btn secondary" href="https://wa.me/56900000000?text=Hola%2C%20me%20sum%C3%A9%20al%20formulario%20de%20veloso56.cl%20y%20quiero%20apoyar%20la%20campaña" target="_blank" rel="noreferrer">
+            Escríbenos por WhatsApp
+          </a>
         </div>
 
         <p class="muted" style="margin-top:16px;font-size:12px">Si no fuiste tú, ignora este mensaje.</p>
@@ -44,11 +49,9 @@
 
   <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
 
-  <!-- Si más adelante agregas píxeles, estos disparos no romperán nada -->
+  <!-- Disparos opcionales de tracking -->
   <script>
-    // Meta Pixel
     if (typeof fbq === "function") { try { fbq('track','Lead'); } catch(_){} }
-    // Google Ads / gtag
     if (typeof gtag === "function") { try { gtag('event','conversion', { 'send_to': 'AW-XXXX/lead' }); } catch(_){} }
   </script>
 </body>
