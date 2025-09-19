@@ -36,7 +36,7 @@
       <p class="lead" style="max-width:720px;margin-top:10px">Amor por nuestra gente. Rabia contra la injusticia. Una campaña desde el territorio y para el territorio.</p>
       <div style="margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
         <a class="btn" href="#sumate">Súmate como voluntario/a →</a>
-        <a class="btn secondary" href="#historias">Ver historias</a>
+        <a class="btn secondary" href="#videos">Ver videos</a>
       </div>
     </div>
   </section>
@@ -56,7 +56,7 @@
     </div>
   </section>
 
-  <!-- PILARS -->
+  <!-- PILARES -->
   <section class="section" aria-labelledby="pillars-title">
     <div class="container">
       <h2 id="pillars-title" class="h2">¿En qué creemos?</h2>
@@ -86,18 +86,18 @@
     </div>
   </section>
 
-  <!-- HISTORIAS -->
-  <section id="historias" class="section" aria-labelledby="stories-title">
+  <!-- VIDEOS -->
+  <section id="videos" class="section" aria-labelledby="videos-title">
     <div class="container">
-      <h2 id="stories-title" class="h2">Historias de oro</h2>
-      <p class="muted">La gente conecta con historias. Aquí van los 2–3 videos más potentes de la campaña.</p>
+      <h2 id="videos-title" class="h2">Videos</h2>
+      <p class="muted">Mira 3 videos recientes de Consuelo.</p>
       <div class="grid grid-3" style="margin-top:12px">
         <div>
           <a class="video-thumb" href="https://www.youtube.com/watch?v=K6nWIc7-0nI" target="_blank" rel="noreferrer">
-            <img src="https://img.youtube.com/vi/K6nWIc7-0nI/hqdefault.jpg" alt="Intervención en Sala (título por confirmar)" loading="lazy">
+            <img src="https://img.youtube.com/vi/K6nWIc7-0nI/hqdefault.jpg" alt="Súmate con el +56 — invitación a participar" loading="lazy">
             <div class="play">▶</div>
           </a>
-          <div class="caption">Intervención en Sala (título por confirmar)</div>
+          <div class="caption">Súmate con el +56 — invitación a participar</div>
         </div>
         <div>
           <a class="video-thumb" href="https://www.youtube.com/watch?v=OfnFPXZar78" target="_blank" rel="noreferrer">
@@ -126,9 +126,11 @@
         <ul class="muted">
           <li>Nombre y contacto</li>
           <li>Comuna</li>
+          <li>Cómo te gustaría ayudar</li>
           <li>Checkbox de voluntariado</li>
         </ul>
       </div>
+
       <form id="vol-form" class="card form" action="https://script.google.com/macros/s/AKfycbwudH-46D_b6DCCsvp1APOb3-9I6pF7zN82e4D3QNkQlFI9b30hkTrdQhkLZ_LTJm_hbA/exec" method="POST">
         <div class="row row-2">
           <div>
@@ -142,6 +144,7 @@
             </label>
           </div>
         </div>
+
         <div class="row row-2">
           <div>
             <label>Teléfono (WhatsApp)
@@ -159,6 +162,22 @@
             </label>
           </div>
         </div>
+
+        <!-- ÁREA DE APOYO -->
+        <fieldset class="row" style="margin-top:8px">
+          <legend class="muted" style="font-weight:600">¿Cómo te gustaría ayudar?</legend>
+          <label style="display:inline-flex;align-items:center;gap:6px">
+            <input type="checkbox" name="digital" value="Sí"> Digital
+          </label>
+          <label style="display:inline-flex;align-items:center;gap:6px;margin-left:14px">
+            <input type="checkbox" name="otra" value="Sí" id="otra_chk"> Otra
+          </label>
+        </fieldset>
+
+        <label id="otra_detalle_wrap" style="display:none;margin-top:8px">
+          Cuéntanos breve
+          <input class="input" type="text" name="otra_detalle" placeholder="Diseño, foto, difusión en grupos, movilidad, etc.">
+        </label>
 
         <!-- hidden meta -->
         <input type="hidden" name="_subject" value="Nuevo registro de voluntariado">
@@ -194,14 +213,13 @@
     <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
       <strong>Sígueme</strong>
       <a href="https://www.instagram.com/consuelovelosodiputada/" target="_blank" rel="noreferrer">Instagram</a>
-      <a href="#" target="_blank" rel="noreferrer">Facebook</a>
-      <a href="#" target="_blank" rel="noreferrer">TikTok</a>
-      <a href="#" target="_blank" rel="noreferrer">YouTube</a>
+      <a href="https://web.facebook.com/ConsueloVelosoAvila" target="_blank" rel="noreferrer">Facebook</a>
+      <a href="https://www.tiktok.com/@consuelovelosoavila" target="_blank" rel="noreferrer">TikTok</a>
+      <a href="https://www.youtube.com/@diputadaconsueloveloso" target="_blank" rel="noreferrer">YouTube</a>
       <a href="https://x.com/velosodiputada" target="_blank" rel="noreferrer">X (Twitter)</a>
     </div>
     <div class="legal">
-      Campaña 2025 • Sitio con certificado SSL y protección de datos. 
-      <!-- TODO: Agregar Administrador/a Electoral, RUT, dirección legal. -->
+      Campaña 2025 • Sitio con certificado SSL y protección de datos.
     </div>
   </div>
 </footer>
@@ -222,6 +240,12 @@
 
   const form=document.getElementById("vol-form");
   if(!form) return;
+
+  // Toggle del campo "Otra"
+  document.getElementById('otra_chk')?.addEventListener('change', e=>{
+    const w = document.getElementById('otra_detalle_wrap');
+    if (w) w.style.display = e.target.checked ? 'block' : 'none';
+  });
 
   form.addEventListener("submit", async (e)=>{
     e.preventDefault();
@@ -247,7 +271,7 @@
         mode: "no-cors"
       });
     } catch (_) {
-      // Aunque falle la lectura de respuesta, el POST ya habrá salido (como viste en la hoja).
+      // Aunque falle la lectura de respuesta, el POST ya habrá salido.
     } finally {
       // Siempre redirigimos a /gracias
       location.href = next;
