@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>¡Gracias por sumarte! — veloso56.cl</title>
+  <meta name="description" content="Gracias por sumarte a la campaña. Te contactaremos pronto.">
+  <link rel="canonical" href="https://veloso56.cl/gracias.html">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2218%22 fill=%22%23e11d48%22/></svg>">
+  <style>
+    .center { text-align:center }
+    .stack { display:flex; gap:12px; justify-content:center; flex-wrap:wrap }
+    .card-hero { max-width:720px; margin:0 auto; }
+  </style>
+</head>
+<body>
+  <main class="section">
+    <div class="container">
+      <div class="card card-hero center">
+        <h1>¡Gracias por sumarte! 💪</h1>
+        <p class="muted">Recibimos tus datos. El equipo te contactará por WhatsApp o correo a la brevedad.</p>
+
+        <div class="stack" style="margin-top:14px">
+          <a class="btn" href="/">Volver al inicio</a>
+          <a class="btn secondary" href="https://wa.me/56900000000?text=Hola%2C%20me%20sum%C3%A9%20al%20formulario%20de%20veloso56.cl%20y%20quiero%20apoyar%20la%20campaña" target="_blank" rel="noreferrer">Escríbenos por WhatsApp</a>
+        </div>
+
+        <p class="muted" style="margin-top:16px;font-size:12px">Si no fuiste tú, ignora este mensaje.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="section" style="padding-top:0">
+    <div class="container center">
+      <div class="stack" style="margin-bottom:10px">
+        <a class="btn secondary" href="/">Inicio</a>
+        <a class="btn secondary" href="propuestas.html">Propuestas</a>
+        <a class="btn secondary" href="noticias.html">Noticias</a>
+      </div>
+      <div class="muted">© <span id="y"></span> veloso56.cl — Campaña Consuelo Veloso</div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
+
+  <!-- Si más adelante agregas píxeles, estos disparos no romperán nada -->
+  <script>
+    // Meta Pixel
+    if (typeof fbq === "function") { try { fbq('track','Lead'); } catch(_){} }
+    // Google Ads / gtag
+    if (typeof gtag === "function") { try { gtag('event','conversion', { 'send_to': 'AW-XXXX/lead' }); } catch(_){} }
+  </script>
+</body>
+</html>
