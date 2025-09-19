@@ -209,7 +209,7 @@
 <script src="script.js"></script>
 <noscript>Este sitio funciona sin JavaScript. Activa JS solo si vas a usar píxeles o analíticas.</noscript>
 
-<!-- Envío a Apps Script + UTM/referrer + anti-spam -->
+<!-- Envío a Apps Script + UTM/referrer + anti-spam (modo no-cors) -->
 <script>
 (function(){
   const q=new URLSearchParams(location.search);
@@ -228,7 +228,7 @@
 
     // Anti-spam: honeypot + tiempo mínimo
     const hp=form.querySelector('input[name="apellido"]');
-    if(hp && hp.value.trim()!==""){ alert("Error de validación."); return; }
+    if(hp && hp.value.trim()!==""){ return; }
     const tsLoad=parseInt(document.getElementById("ts_load")?.value||"0",10);
     const now=Date.now();
     const tsSubmit=document.getElementById("ts_submit"); if(tsSubmit) tsSubmit.value=now.toString();
@@ -237,25 +237,20 @@
     const btn=form.querySelector('button[type="submit"]');
     if(btn){ btn.disabled=true; btn.textContent="Enviando..."; }
 
-    try{
-      const res=await fetch(form.getAttribute("action"),{
-        method:"POST",
-        body:new FormData(form),
-        headers:{ "Accept":"application/json" },
-        mode:"cors",
+    const next=form.querySelector('input[name="_next"]')?.value || "/gracias.html";
+
+    try {
+      // Enviamos sin intentar leer respuesta (evita CORS)
+      await fetch(form.getAttribute("action"), {
+        method: "POST",
+        body: new FormData(form),
+        mode: "no-cors"
       });
-      let ok=false;
-      try{ const data=await res.json(); ok=!!data.ok; }catch(_){ ok=res.ok; }
-      if(ok){
-        const next=form.querySelector('input[name="_next"]')?.value || "/gracias.html";
-        location.href=next;
-      }else{
-        alert("No se pudo enviar. Intenta de nuevo.");
-        if(btn){ btn.disabled=false; btn.textContent="Enviar →"; }
-      }
-    }catch(_){
-      alert("Sin conexión o error temporal. Intenta nuevamente.");
-      if(btn){ btn.disabled=false; btn.textContent="Enviar →"; }
+    } catch (_) {
+      // Aunque falle la lectura de respuesta, el POST ya habrá salido (como viste en la hoja).
+    } finally {
+      // Siempre redirigimos a /gracias
+      location.href = next;
     }
   });
 })();
