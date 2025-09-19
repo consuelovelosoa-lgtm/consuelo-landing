@@ -125,8 +125,7 @@
         <p class="muted">Completa el formulario: pedimos lo mínimo indispensable para organizar equipos por comuna.</p>
         <ul class="muted">
           <li>Nombre y contacto</li>
-          <li>Comuna</li>
-          <li>Cómo te gustaría ayudar</li>
+          <li>Comuna (incluye Digital / Otra)</li>
           <li>Checkbox de voluntariado</li>
         </ul>
       </div>
@@ -153,30 +152,22 @@
           </div>
           <div>
             <label>Comuna
-              <select class="select" name="comuna" required>
+              <select class="select" name="comuna" id="comuna_sel" required>
                 <option value="" disabled selected>Selecciona tu comuna</option>
                 <option>Cauquenes</option><option>Chanco</option><option>Colbún</option><option>Linares</option>
                 <option>Longaví</option><option>Parral</option><option>Retiro</option><option>San Javier</option>
                 <option>Villa Alegre</option><option>Yerbas Buenas</option>
+                <option>Digital</option>
+                <option>Otra</option>
               </select>
             </label>
           </div>
         </div>
 
-        <!-- ÁREA DE APOYO -->
-        <fieldset class="row" style="margin-top:8px">
-          <legend class="muted" style="font-weight:600">¿Cómo te gustaría ayudar?</legend>
-          <label style="display:inline-flex;align-items:center;gap:6px">
-            <input type="checkbox" name="digital" value="Sí"> Digital
-          </label>
-          <label style="display:inline-flex;align-items:center;gap:6px;margin-left:14px">
-            <input type="checkbox" name="otra" value="Sí" id="otra_chk"> Otra
-          </label>
-        </fieldset>
-
-        <label id="otra_detalle_wrap" style="display:none;margin-top:8px">
-          Cuéntanos breve
-          <input class="input" type="text" name="otra_detalle" placeholder="Diseño, foto, difusión en grupos, movilidad, etc.">
+        <!-- Si eliges "Otra", aparece este campo -->
+        <label id="comuna_otra_wrap" style="display:none;margin-top:8px">
+          Especifica tu comuna
+          <input class="input" type="text" name="comuna_otra" id="comuna_otra" placeholder="Escribe tu comuna">
         </label>
 
         <!-- hidden meta -->
@@ -238,14 +229,23 @@
   const o=document.getElementById("origin");   if(o) o.value=location.origin;
   const tl=document.getElementById("ts_load"); if(tl) tl.value=Date.now().toString();
 
+  // Toggle de "comuna_otra" cuando seleccionan "Otra" en comuna
+  const comunaSel = document.getElementById('comuna_sel');
+  const wrapOtra  = document.getElementById('comuna_otra_wrap');
+  const inputOtra = document.getElementById('comuna_otra');
+  function syncOtra(){
+    const isOtra = comunaSel?.value === 'Otra';
+    if (wrapOtra) wrapOtra.style.display = isOtra ? 'block' : 'none';
+    if (inputOtra){
+      if (isOtra){ inputOtra.setAttribute('required','required'); }
+      else { inputOtra.removeAttribute('required'); inputOtra.value=''; }
+    }
+  }
+  comunaSel?.addEventListener('change', syncOtra);
+  syncOtra();
+
   const form=document.getElementById("vol-form");
   if(!form) return;
-
-  // Toggle del campo "Otra"
-  document.getElementById('otra_chk')?.addEventListener('change', e=>{
-    const w = document.getElementById('otra_detalle_wrap');
-    if (w) w.style.display = e.target.checked ? 'block' : 'none';
-  });
 
   form.addEventListener("submit", async (e)=>{
     e.preventDefault();
@@ -264,16 +264,14 @@
     const next=form.querySelector('input[name="_next"]')?.value || "/gracias.html";
 
     try {
-      // Enviamos sin intentar leer respuesta (evita CORS)
       await fetch(form.getAttribute("action"), {
         method: "POST",
         body: new FormData(form),
         mode: "no-cors"
       });
     } catch (_) {
-      // Aunque falle la lectura de respuesta, el POST ya habrá salido.
+      /* El POST igualmente habrá salido en la mayoría de los casos. */
     } finally {
-      // Siempre redirigimos a /gracias
       location.href = next;
     }
   });
