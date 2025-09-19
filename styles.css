@@ -38,3 +38,23 @@ img{max-width:100%;display:block}
 @media(min-width:700px){.form .row-2{grid-template-columns:1fr 1fr}}
 .footer{border-top:1px solid var(--ring);background:#fff;padding:28px 0;color:#333}
 .legal{font-size:12px;color:#666;margin-top:8px}
+/* --- Añadidos (logo + botón WhatsApp + menú legible) --- */
+.brand-logo{
+  width:28px; height:28px; object-fit:contain;
+  border-radius:6px; margin-right:8px; vertical-align:middle;
+}
+.brand-name{ font-weight:700; }
+
+/* Fuerza texto oscuro en el header (links y marca) */
+.header .brand, .header .nav a{ color:#111; }
+
+/* Botón "Menú" claro con texto oscuro (evita blanco sobre blanco) */
+.btn.ghost, .menu.btn, .btn.secondary.menu{
+  background:#fff; color:#111; border:1px solid #e5e7eb;
+}
+
+/* Botón WhatsApp */
+.btn.whatsapp{
+  background:#25d366; color:#111; border:1px solid #1ebe57;
+}
+.btn.whatsapp:hover{ filter:brightness(.95); }
