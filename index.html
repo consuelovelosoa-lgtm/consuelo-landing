@@ -27,7 +27,7 @@
       <a href="propuestas.html">Propuestas</a>
       <a href="#sumate">Súmate</a>
       <a href="noticias.html">Noticias</a>
-      <a class="btn whatsapp" href="https://chat.whatsapp.com/LDShAeDdPcbHXeD8Y8cQFF" target="_blank" rel="noreferrer">WhatsApp</a>
+      <a class="btn outline" href="https://chat.whatsapp.com/LDShAeDdPcbHXeD8Y8cQFF" target="_blank" rel="noreferrer">WhatsApp</a>
     </nav>
     <button class="menu btn ghost" aria-label="Abrir menú">Menú</button>
   </div>
@@ -39,11 +39,13 @@
     <div class="inner container">
       <h1 id="hero-title">Consuelo Veloso</h1>
       <p class="lead">La Defensora Feroz del Maule Sur.</p>
-      <p class="lead" style="max-width:720px;margin-top:10px">Amor por nuestra gente. Rabia contra la injusticia. Una campaña desde el territorio y para el territorio.</p>
+      <p class="lead" style="max-width:720px;margin-top:10px">
+        Amor por nuestra gente. Rabia contra la injusticia. Una campaña desde el territorio y para el territorio.
+      </p>
       <div style="margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-        <a class="btn" href="#sumate">Súmate como voluntario/a →</a>
-        <a class="btn secondary" href="#videos">Ver videos</a>
-        <a class="btn whatsapp" href="https://chat.whatsapp.com/LDShAeDdPcbHXeD8Y8cQFF" target="_blank" rel="noreferrer">Únete al WhatsApp</a>
+        <a class="btn primary" href="#sumate">Súmate como voluntario/a →</a>
+        <a class="btn outline" href="#videos">Ver videos</a>
+        <a class="btn outline" href="https://chat.whatsapp.com/LDShAeDdPcbHXeD8Y8cQFF" target="_blank" rel="noreferrer">Únete al WhatsApp</a>
       </div>
     </div>
   </section>
@@ -97,7 +99,7 @@
   <section id="videos" class="section" aria-labelledby="videos-title">
     <div class="container">
       <h2 id="videos-title" class="h2">Videos</h2>
-      <p class="muted">Mira 3 videos recientes de Consuelo.</p>
+    <p class="muted">Mira 3 videos recientes de Consuelo.</p>
       <div class="grid grid-3" style="margin-top:12px">
         <div>
           <a class="video-thumb" href="https://www.youtube.com/watch?v=K6nWIc7-0nI" target="_blank" rel="noreferrer">
@@ -200,7 +202,7 @@
         </label>
 
         <p class="muted" style="font-size:12px">Al enviar aceptas ser contactad@ por el equipo de campaña.</p>
-        <button class="btn" type="submit">Enviar →</button>
+        <button class="btn primary" type="submit">Enviar →</button>
       </form>
     </div>
   </section>
@@ -237,7 +239,7 @@
   const o=document.getElementById("origin");   if(o) o.value=location.origin;
   const tl=document.getElementById("ts_load"); if(tl) tl.value=Date.now().toString();
 
-  // Toggle de "comuna_otra" cuando seleccionan "Otra" en comuna
+  // Toggle "Otra" en comuna
   const comunaSel = document.getElementById('comuna_sel');
   const wrapOtra  = document.getElementById('comuna_otra_wrap');
   const inputOtra = document.getElementById('comuna_otra');
@@ -278,7 +280,7 @@
         mode: "no-cors"
       });
     } catch (_) {
-      /* El POST igualmente habrá salido en la mayoría de los casos. */
+      /* Aunque falle la lectura de respuesta, el POST ya habrá salido. */
     } finally {
       location.href = next;
     }
