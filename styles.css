@@ -124,3 +124,19 @@ img{max-width:100%;display:block}
 /* ---------- Footer ---------- */
 .footer{border-top:1px solid var(--ring);background:#fff;padding:28px 0;color:#333}
 .legal{font-size:12px;color:#666;margin-top:8px}
+
+/* --- Fix botón WhatsApp en el menú (si quedaba blanco o cambiaba en hover) --- */
+.header .nav .btn.whatsapp,
+.nav .btn.whatsapp,
+.nav a.btn.whatsapp{
+  background: var(--whatsapp) !important;
+  color: #111 !important;
+  border: 1px solid #1ebe57 !important;
+  box-shadow: var(--shadow);
+}
+
+/* Mantener verde también al pasar el mouse */
+.nav a.btn.whatsapp:hover{
+  background: var(--whatsapp) !important;
+  color: #111 !important;
+}
