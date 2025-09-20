@@ -1,60 +1,126 @@
-:root{--bg:#fafaf9;--fg:#0a0a0a;--muted:#525252;--brand:#e11d48;--card:#fff;--ring:#e5e5e5;--shadow:0 1px 2px rgba(0,0,0,.05),0 4px 12px rgba(0,0,0,.06);--radius:16px}
-*{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"}
-a{color:inherit}
+:root{
+  --bg:#fafaf9;
+  --fg:#0a0a0a;
+  --muted:#525252;
+  --brand:#e11d48;        /* rojo campaña */
+  --whatsapp:#25d366;     /* verde whats */
+  --card:#fff;
+  --ring:#e5e5e5;
+  --shadow:0 1px 2px rgba(0,0,0,.05),0 4px 12px rgba(0,0,0,.06);
+  --radius:16px;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--fg);
+  font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+}
+a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 .container{max-width:1120px;margin:0 auto;padding:0 16px}
-.header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.8);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid #eee}
+
+/* ---------- Header ---------- */
+.header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(255,255,255,.85);
+  backdrop-filter:saturate(180%) blur(10px);
+  border-bottom:1px solid #eee;
+}
 .header-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
-.brand{display:flex;align-items:center;gap:10px;font-weight:700}
-.brand-badge{width:28px;height:28px;border-radius:10px;background:var(--brand)}
-.nav{display:none;gap:16px}
-.nav a{padding:8px 12px;border-radius:12px}
-.nav a.active,.nav a:hover{background:#111;color:#fff}
+
+/* Marca */
+.brand{display:flex;align-items:center;gap:10px}
+.brand-logo{width:28px;height:28px;object-fit:contain;border-radius:6px}
+.brand-name{font-weight:700}
+
+/* Nav */
+.nav{display:none;gap:16px;align-items:center}
+.nav a{padding:8px 12px;border-radius:12px;color:#111}
+.nav a:hover,.nav a.active{background:#111;color:#fff}
 .menu{display:inline-flex}
-@media(min-width:768px){.nav{display:flex}.menu{display:none}}
-.hero{position:relative;min-height:82vh;display:grid;place-items:center;text-align:center;padding:88px 0 32px;color:#fff}
-.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.35)),url('https://www.septimapaginanoticias.cl/uploads/images/2025/05/image_750x_68399a9223cc3.jpg');background-size:cover;background-position:center;filter:saturate(1.05)}
+
+/* Responsive nav */
+@media (min-width:768px){.nav{display:flex}.menu{display:none}}
+
+/* ---------- Hero ---------- */
+.hero{
+  position:relative;min-height:82vh;
+  display:grid;place-items:center;text-align:center;
+  padding:88px 0 32px;color:#fff;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.35)),
+    url('https://www.septimapaginanoticias.cl/uploads/images/2025/05/image_750x_68399a9223cc3.jpg');
+  background-size:cover;background-position:center;filter:saturate(1.05)
+}
 .hero>.inner{position:relative;z-index:1}
 .hero h1{font-size:clamp(32px,5vw,64px);margin:0 0 8px}
 .hero p.lead{font-size:clamp(16px,2.6vw,22px);margin:8px auto 0;max-width:700px}
-.btn{display:inline-flex;align-items:center;gap:8px;background:var(--brand);color:#fff;border:none;border-radius:999px;padding:12px 18px;font-weight:700;box-shadow:var(--shadow);cursor:pointer}
-.btn.secondary{background:rgba(255,255,255,.12);outline:1px solid rgba(255,255,255,.35)}
+
+/* ---------- Botones ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border:none;border-radius:999px;padding:12px 18px;
+  font-weight:700;cursor:pointer;box-shadow:var(--shadow);
+  transition:transform .06s ease, filter .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+}
+.btn:active{transform:translateY(1px)}
+
+/* Principal rojo */
+.btn.primary{background:var(--brand);color:#fff}
+
+/* Outline claro (pensado para el héroe) */
+.btn.outline{
+  background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.75);
+}
+.btn.outline:hover{background:rgba(255,255,255,.1)}
+
+/* Ghost claro (botón Menú en header) */
+.btn.ghost{background:#fff;color:#111;border:1px solid #e5e7eb}
+
+/* WhatsApp SIEMPRE verde sólido (aunque tenga .outline en el HTML) */
+.btn.whatsapp{
+  background:var(--whatsapp)!important;color:#111!important;border:1px solid #1ebe57!important;
+}
+.btn.whatsapp:hover{filter:brightness(.96)}
+
+/* ---------- Secciones / tarjetas ---------- */
 .section{padding:56px 0}
 .grid{display:grid;gap:20px}
-@media(min-width:900px){.grid-2{grid-template-columns:1fr 1fr}.grid-3{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:900px){
+  .grid-2{grid-template-columns:1fr 1fr}
+  .grid-3{grid-template-columns:repeat(3,1fr)}
+}
 .card{background:var(--card);border:1px solid var(--ring);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
 .h2{font-size:clamp(24px,3.4vw,36px);margin:0 0 8px}
 .muted{color:var(--muted)}
+
+/* Pilares */
 .pillar{transition:transform .15s ease}
 .pillar:hover{transform:translateY(-2px)}
+
+/* Thumbnails de video */
 .video-thumb{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--ring)}
-.video-thumb .play{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(to bottom, rgba(0,0,0,.0), rgba(0,0,0,.25));color:#fff;font-weight:700}
+.video-thumb .play{
+  position:absolute;inset:0;display:grid;place-items:center;
+  background:linear-gradient(to bottom, rgba(0,0,0,.0), rgba(0,0,0,.25));
+  color:#fff;font-weight:700
+}
 .caption{font-size:14px;color:#525252;margin-top:6px}
+
+/* ---------- Formularios ---------- */
 .form label{display:block;font-weight:600;font-size:14px}
-.input,.select,.checkbox{width:100%;margin-top:6px;padding:10px 12px;border:1px solid var(--ring);border-radius:12px;background:#fff;color:inherit}
+.input,.select,.checkbox{
+  width:100%;margin-top:6px;padding:10px 12px;
+  border:1px solid var(--ring);border-radius:12px;background:#fff;color:inherit
+}
 .checkbox{width:auto}
 .form .row{display:grid;gap:12px}
-@media(min-width:700px){.form .row-2{grid-template-columns:1fr 1fr}}
+@media (min-width:700px){.form .row-2{grid-template-columns:1fr 1fr}}
+
+/* ---------- Footer ---------- */
 .footer{border-top:1px solid var(--ring);background:#fff;padding:28px 0;color:#333}
 .legal{font-size:12px;color:#666;margin-top:8px}
-/* --- Añadidos (logo + botón WhatsApp + menú legible) --- */
-.brand-logo{
-  width:28px; height:28px; object-fit:contain;
-  border-radius:6px; margin-right:8px; vertical-align:middle;
-}
-.brand-name{ font-weight:700; }
-
-/* Fuerza texto oscuro en el header (links y marca) */
-.header .brand, .header .nav a{ color:#111; }
-
-/* Botón "Menú" claro con texto oscuro (evita blanco sobre blanco) */
-.btn.ghost, .menu.btn, .btn.secondary.menu{
-  background:#fff; color:#111; border:1px solid #e5e7eb;
-}
-
-/* Botón WhatsApp */
-.btn.whatsapp{
-  background:#25d366; color:#111; border:1px solid #1ebe57;
-}
-.btn.whatsapp:hover{ filter:brightness(.95); }
