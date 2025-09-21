@@ -184,3 +184,15 @@ img{max-width:100%;display:block}
     align-self:center; font-weight:700; margin-top:6px;
   }
 }
+
+/* ===== Offset para anclas con header sticky ===== */
+:root { --header-h: 64px; }                 /* fallback */
+@media (min-width:768px){ :root { --header-h: 72px; } }
+
+/* Cualquier sección con id deja "aire" arriba al navegar por #ancla */
+section[id], :target {
+  scroll-margin-top: calc(var(--header-h) + 14px);
+}
+
+/* (opcional, ayuda a algunos navegadores) */
+html { scroll-padding-top: calc(var(--header-h) + 14px); }
