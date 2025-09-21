@@ -271,3 +271,52 @@ body.nav-open{ overflow:hidden; }
     padding:12px 22px;
   }
 }
+
+/* ====== NAV MÓVIL (tamaño botón + overlay sin blur) ====== */
+@media (max-width: 767px) {
+
+  /* Más aire para el logo en el borde izquierdo */
+  .header .container { padding: 10px 14px; }
+  .brand-logo { margin-left: 2px; }  /* ajusta 0–6px a gusto */
+
+  /* Botón Menú: más compacto y proporcionado */
+  .menu.btn {
+    height: 40px;
+    line-height: 40px;          /* alinea el texto verticalmente */
+    padding: 0 16px;            /* ancho del “pill” */
+    font-size: 16px;
+    border-radius: 22px;        /* bordes un poco menos “gorditos” */
+    box-shadow: var(--shadow);
+  }
+
+  /* Overlay del menú: fondo SOLIDO (sin blur) y lista vertical */
+  .nav {
+    position: fixed;
+    inset: 0;
+    display: none;              /* se muestra sólo con .open */
+    background: #ffffff;        /* sólido => nada borroso */
+    backdrop-filter: none !important;
+    padding: 92px 24px 24px;    /* despega del borde superior */
+    gap: 18px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow-y: auto;
+    z-index: 60;
+  }
+  .nav.open { display: flex; }
+
+  .nav a {
+    font-size: 20px;
+    padding: 14px 18px;
+    border-radius: 14px;
+  }
+  .nav a:not(.whatsapp):hover { background: #f4f4f5; }
+
+  /* Que el botón verde también se vea bien en el overlay */
+  .nav .whatsapp {
+    align-self: center;
+    font-weight: 700;
+    margin-top: 6px;
+  }
+}
