@@ -140,3 +140,34 @@ img{max-width:100%;display:block}
   background: var(--whatsapp) !important;
   color: #111 !important;
 }
+
+/* --- FIX WhatsApp: consistente en todo el sitio --- */
+.btn.whatsapp,
+.nav .btn.whatsapp {
+  background:#25d366 !important;
+  color:#111 !important;
+  border:1px solid #1ebe57 !important;
+}
+
+/* No oscurecerlo al hacer hover/active */
+.btn.whatsapp:hover,
+.nav .btn.whatsapp:hover,
+.nav a.active.btn.whatsapp {
+  background:#22c85f !important;
+  color:#111 !important;
+  border-color:#19b752 !important;
+  filter:none !important;
+}
+
+/* Evitar que las reglas de .nav a lo sobre-escriban */
+.nav a.btn.whatsapp { 
+  padding:8px 14px;           /* mantiene el pill del menú */
+  border-radius:999px;
+}
+
+/* En el héroe también forzamos el verde (por si hay overlays blancos) */
+.hero .btn.whatsapp {
+  background:#25d366 !important;
+  color:#111 !important;
+  border:1px solid #1ebe57 !important;
+}
