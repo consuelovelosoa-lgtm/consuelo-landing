@@ -23,17 +23,17 @@
       <span class="brand-name">Consuelo Veloso Ávila</span>
     </div>
 
-    <!-- Drawer nav -->
-    <nav id="site-nav" class="nav">
+    <!-- Drawer / barra de navegación -->
+    <nav id="site-nav" class="nav" aria-hidden="true">
       <a href="#inicio" class="active">Inicio</a>
       <a href="propuestas.html">Propuestas</a>
       <a href="#sumate">Súmate</a>
       <a href="noticias.html">Noticias</a>
-      <a class="btn whatsapp" href="https://chat.whatsapp.com/LDShAeDdPcbHXeD8Y8cQFF" target="_blank" rel="noreferrer">WhatsApp</a>
+      <a class="btn whatsapp" href="https://chat.whatsapp.com/LDShAeDdPcbHXeD8Y8cQFF" target="_blank" rel="noopener noreferrer">WhatsApp</a>
     </nav>
 
-    <button class="menu btn ghost" aria-label="Abrir menú"
-            aria-controls="site-nav" aria-expanded="false">Menú</button>
+    <!-- Botón que abre/cierra el drawer en móvil -->
+    <button class="menu btn ghost" aria-label="Abrir menú" aria-controls="site-nav" aria-expanded="false">Menú</button>
   </div>
 </header>
 
@@ -49,7 +49,7 @@
       <div style="margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
         <a class="btn primary" href="#sumate">Súmate como voluntario/a →</a>
         <a class="btn outline" href="#videos">Ver videos</a>
-        <a class="btn whatsapp" href="https://chat.whatsapp.com/LDShAeDdPcbHXeD8Y8cQFF" target="_blank" rel="noreferrer">Únete al WhatsApp</a>
+        <a class="btn whatsapp" href="https://chat.whatsapp.com/LDShAeDdPcbHXeD8Y8cQFF" target="_blank" rel="noopener noreferrer">Únete al WhatsApp</a>
       </div>
     </div>
   </section>
@@ -106,21 +106,21 @@
       <p class="muted">Mira 3 videos recientes de Consuelo.</p>
       <div class="grid grid-3" style="margin-top:12px">
         <div>
-          <a class="video-thumb" href="https://www.youtube.com/watch?v=K6nWIc7-0nI" target="_blank" rel="noreferrer">
+          <a class="video-thumb" href="https://www.youtube.com/watch?v=K6nWIc7-0nI" target="_blank" rel="noopener noreferrer">
             <img src="https://img.youtube.com/vi/K6nWIc7-0nI/hqdefault.jpg" alt="Súmate con el +56 — invitación a participar" loading="lazy">
             <div class="play">▶</div>
           </a>
           <div class="caption">Súmate con el +56 — invitación a participar</div>
         </div>
         <div>
-          <a class="video-thumb" href="https://www.youtube.com/watch?v=OfnFPXZar78" target="_blank" rel="noreferrer">
+          <a class="video-thumb" href="https://www.youtube.com/watch?v=OfnFPXZar78" target="_blank" rel="noopener noreferrer">
             <img src="https://img.youtube.com/vi/OfnFPXZar78/hqdefault.jpg" alt="Intervención en Sala: críticas a la UDI (Caso Hermosilla)" loading="lazy">
             <div class="play">▶</div>
           </a>
           <div class="caption">Intervención en Sala: críticas a la UDI (Caso Hermosilla)</div>
         </div>
         <div>
-          <a class="video-thumb" href="https://www.youtube.com/watch?v=6P4RvrZJ4IM" target="_blank" rel="noreferrer">
+          <a class="video-thumb" href="https://www.youtube.com/watch?v=6P4RvrZJ4IM" target="_blank" rel="noopener noreferrer">
             <img src="https://img.youtube.com/vi/6P4RvrZJ4IM/hqdefault.jpg" alt="Royalty Minero despachado a ley — Veloso celebra y destaca fondos regionales" loading="lazy">
             <div class="play">▶</div>
           </a>
@@ -216,21 +216,18 @@
   <div class="container" style="display:grid;gap:16px">
     <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
       <strong>Sígueme</strong>
-      <a href="https://www.instagram.com/consuelovelosodiputada/" target="_blank" rel="noreferrer">Instagram</a>
-      <a href="https://web.facebook.com/ConsueloVelosoAvila" target="_blank" rel="noreferrer">Facebook</a>
-      <a href="https://www.tiktok.com/@consuelovelosoavila" target="_blank" rel="noreferrer">TikTok</a>
-      <a href="https://www.youtube.com/@diputadaconsueloveloso" target="_blank" rel="noreferrer">YouTube</a>
-      <a href="https://x.com/velosodiputada" target="_blank" rel="noreferrer">X (Twitter)</a>
-      <a href="https://chat.whatsapp.com/LDShAeDdPcbHXeD8Y8cQFF" target="_blank" rel="noreferrer">WhatsApp</a>
+      <a href="https://www.instagram.com/consuelovelosodiputada/" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a href="https://web.facebook.com/ConsueloVelosoAvila" target="_blank" rel="noopener noreferrer">Facebook</a>
+      <a href="https://www.tiktok.com/@consuelovelosoavila" target="_blank" rel="noopener noreferrer">TikTok</a>
+      <a href="https://www.youtube.com/@diputadaconsueloveloso" target="_blank" rel="noopener noreferrer">YouTube</a>
+      <a href="https://x.com/velosodiputada" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
+      <a href="https://chat.whatsapp.com/LDShAeDdPcbHXeD8Y8cQFF" target="_blank" rel="noopener noreferrer">WhatsApp</a>
     </div>
     <div class="legal">
       Campaña 2025 • Sitio con certificado SSL y protección de datos.
     </div>
   </div>
 </footer>
-
-<!-- Backdrop del drawer (si no existe, el script lo crea) -->
-<div class="backdrop" aria-hidden="true"></div>
 
 <script src="script.js"></script>
 <noscript>Este sitio funciona sin JavaScript. Activa JS solo si vas a usar píxeles o analíticas.</noscript>
