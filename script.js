@@ -36,3 +36,17 @@
   const sync = () => { if (mq.matches) close(); };
   mq.addEventListener ? mq.addEventListener('change', sync) : mq.addListener(sync);
 })();
+
+/* Ajusta --header-h al alto real del header (móvil/desktop) */
+(function () {
+  const header = document.querySelector('.header');
+  if (!header) return;
+
+  const setHeaderVar = () => {
+    const h = Math.round(header.getBoundingClientRect().height);
+    document.documentElement.style.setProperty('--header-h', `${h}px`);
+  };
+
+  setHeaderVar();
+  window.addEventListener('resize', setHeaderVar);
+})();
