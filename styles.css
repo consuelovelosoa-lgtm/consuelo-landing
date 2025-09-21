@@ -171,3 +171,51 @@ img{max-width:100%;display:block}
   color:#111 !important;
   border:1px solid #1ebe57 !important;
 }
+
+/* ===== NAV móvil como panel ===== */
+.nav{
+  /* panel lateral en móvil */
+  display:flex;                 /* importante: mantiene flex */
+  flex-direction:column;
+  gap:12px;
+  position:fixed;
+  top:0; right:0;
+  height:100dvh; width:84vw;
+  padding:22px;
+  background:#fff;
+  box-shadow:-12px 0 32px rgba(0,0,0,.18);
+  transform:translateX(100%);
+  transition:transform .25s ease;
+  z-index:110;
+}
+.nav.is-open{ transform:translateX(0); }
+
+/* fondo oscuro clicable detrás del panel */
+.backdrop{
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.35);
+  backdrop-filter:blur(2px);
+  display:none;
+  z-index:100;
+}
+.backdrop.show{ display:block; }
+
+/* bloquear scroll cuando el panel está abierto */
+body.nav-open{ overflow:hidden; }
+
+/* En tablets (>=768px) mantenemos el panel y mostramos el botón Menú */
+@media (min-width:768px){
+  .menu{ display:inline-flex; }         /* re-muestra el botón si alguna regla previa lo ocultaba */
+}
+
+/* En desktop (>=1024px) restauramos nav horizontal clásico */
+@media (min-width:1024px){
+  .nav{
+    position:static;
+    height:auto; width:auto;
+    transform:none; box-shadow:none; padding:0;
+    flex-direction:row; align-items:center; gap:16px;
+    background:transparent;
+  }
+  .menu{ display:none; }
+}
