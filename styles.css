@@ -10,7 +10,7 @@
   --radius:16px;
 }
 
-/* ===== Base ===== */
+/* ---------- Reset básico ---------- */
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
@@ -21,35 +21,71 @@ a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 .container{max-width:1120px;margin:0 auto;padding:0 16px}
 
-/* ===== Header ===== */
+/* ---------- Header ---------- */
 .header{
   position:sticky;top:0;z-index:50;
   background:rgba(255,255,255,.85);
   backdrop-filter:saturate(180%) blur(10px);
   border-bottom:1px solid #eee;
 }
+.header .container{ padding-left:24px; }  /* aire para el logo */
 .header-inner{
-  display:grid;align-items:center;gap:16px;
-  grid-template-columns:auto 1fr auto;  /* [brand] [nav centrado] [menú] */
-  padding:10px 0;
+  display:grid;
+  grid-template-columns:auto 1fr auto; /* [brand] [nav centrado] [btn menú] */
+  align-items:center;
+  gap:16px;
 }
 
 /* Marca */
 .brand{display:flex;align-items:center;gap:10px}
-.brand-logo{width:28px;height:28px;object-fit:contain;border-radius:6px;margin-left:4px}
+.brand-logo{width:28px;height:28px;object-fit:contain;border-radius:6px}
 .brand-name{font-weight:700}
 
-/* ===== Nav (desktop por defecto) ===== */
+/* ---------- Nav (drawer móvil + barra desktop) ---------- */
 .nav{
-  display:flex;gap:16px;align-items:center;justify-content:center;
+  /* Drawer por defecto (móvil) */
+  position:fixed;
+  top:0; right:0;
+  width:84vw; height:100dvh;
+  padding:22px;
+  display:flex; flex-direction:column; gap:14px;
+  background:#fff;
+  box-shadow:-12px 0 32px rgba(0,0,0,.18);
+  transform:translateX(100%);
+  transition:transform .25s ease;
+  z-index:110;
 }
-.nav a{padding:8px 12px;border-radius:12px;color:#111}
-.nav a:hover,.nav a.active{background:#111;color:#fff}
+.nav.is-open{ transform:translateX(0); }
 
-/* Botón Menú (oculto en desktop) */
-.menu{display:none}
+.nav a{padding:10px 12px;border-radius:12px;color:#111;font-weight:500}
 
-/* ===== Hero ===== */
+/* Botón Menú */
+.menu{display:inline-flex}
+.btn.ghost{background:#fff;color:#111;border:1px solid #e5e7eb}
+
+/* Backdrop del drawer */
+.backdrop{
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.35);
+  display:none; z-index:100;
+}
+.backdrop.show{ display:block; }
+body.nav-open{ overflow:hidden }
+
+/* Desktop: nav horizontal centrado */
+@media (min-width:1024px){
+  .nav{
+    position:static; transform:none; box-shadow:none;
+    height:auto; width:auto; padding:0;
+    flex-direction:row; align-items:center; gap:16px;
+    background:transparent;
+  }
+  .menu{ display:none; }
+  .nav{ justify-content:center; }
+  .nav a:hover, .nav a.active{ background:#111;color:#fff; }
+}
+
+/* ---------- Hero ---------- */
 .hero{
   position:relative;min-height:82vh;
   display:grid;place-items:center;text-align:center;
@@ -60,13 +96,13 @@ img{max-width:100%;display:block}
   background-image:
     linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.35)),
     url('https://www.septimapaginanoticias.cl/uploads/images/2025/05/image_750x_68399a9223cc3.jpg');
-  background-size:cover;background-position:center;filter:saturate(1.05)
+  background-size:cover;background-position:center;filter:saturate(1.05);
 }
 .hero>.inner{position:relative;z-index:1}
 .hero h1{font-size:clamp(32px,5vw,64px);margin:0 0 8px}
 .hero p.lead{font-size:clamp(16px,2.6vw,22px);margin:8px auto 0;max-width:700px}
 
-/* ===== Botones ===== */
+/* ---------- Botones ---------- */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
   border:none;border-radius:999px;padding:12px 18px;
@@ -77,27 +113,18 @@ img{max-width:100%;display:block}
 .btn.primary{background:var(--brand);color:#fff}
 .btn.outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.75)}
 .btn.outline:hover{background:rgba(255,255,255,.1)}
-.btn.ghost{background:#fff;color:#111;border:1px solid #e5e7eb}
 
-/* WhatsApp: consistente SIEMPRE verde */
+/* WhatsApp SIEMPRE verde */
 .btn.whatsapp,
 .nav .btn.whatsapp,
 .nav a.btn.whatsapp{
   background:var(--whatsapp)!important;
   color:#111!important;
   border:1px solid #1ebe57!important;
-  box-shadow:var(--shadow);
 }
-.btn.whatsapp:hover,
-.nav .btn.whatsapp:hover,
-.nav a.btn.whatsapp:hover{
-  background:#22c85f!important;
-  color:#111!important;
-  border-color:#19b752!important;
-  filter:none!important;
-}
+.btn.whatsapp:hover{ filter:brightness(.96) }
 
-/* ===== Secciones / tarjetas ===== */
+/* ---------- Secciones / tarjetas ---------- */
 .section{padding:56px 0}
 .grid{display:grid;gap:20px}
 @media (min-width:900px){
@@ -121,7 +148,7 @@ img{max-width:100%;display:block}
 }
 .caption{font-size:14px;color:#525252;margin-top:6px}
 
-/* ===== Formularios ===== */
+/* ---------- Formularios ---------- */
 .form label{display:block;font-weight:600;font-size:14px}
 .input,.select,.checkbox{
   width:100%;margin-top:6px;padding:10px 12px;
@@ -131,68 +158,18 @@ img{max-width:100%;display:block}
 .form .row{display:grid;gap:12px}
 @media (min-width:700px){.form .row-2{grid-template-columns:1fr 1fr}}
 
-/* ===== Footer ===== */
+/* ---------- Footer ---------- */
 .footer{border-top:1px solid var(--ring);background:#fff;padding:28px 0;color:#333}
 .legal{font-size:12px;color:#666;margin-top:8px}
 
-/* ===== Responsive ===== */
-
-/* Desktop: mostrar nav horizontal / ocultar botón Menú */
-@media (min-width:768px){
-  .nav{display:flex}
-  .menu{display:none}
-}
-
-/* Móvil: botón Menú visible y nav como overlay */
+/* ---------- Ajustes móviles (botón Menú y drawer) ---------- */
 @media (max-width:767px){
-
-  /* Más aire al logo */
-  .header .container{padding-left:20px}
-  .brand-logo{margin-left:2px}
-
   /* Botón Menú más proporcionado */
-  .menu{
-    display:inline-flex;
-  }
   .menu.btn{
-    height:40px; line-height:40px;
-    padding:0 16px; font-size:16px;
-    border-radius:22px; box-shadow:var(--shadow);
+    height:40px; line-height:40px; padding:0 16px;
+    font-size:16px; border-radius:22px; box-shadow:var(--shadow);
   }
-
-  /* Nav overlay (oculto por defecto, visible con .open) */
-  .nav{
-    display:none;                 /* se fuerza a oculto en móvil */
-    position:fixed; inset:0;
-    background:#ffffff;           /* sólido => nada borroso */
-    backdrop-filter:none!important;
-    padding:92px 24px 24px;
-    gap:18px; flex-direction:column;
-    align-items:flex-start; justify-content:flex-start;
-    overflow-y:auto; z-index:60;
-  }
-  .nav.open{ display:flex; }
-
-  .nav a{
-    font-size:20px;
-    padding:14px 18px;
-    border-radius:14px;
-  }
-  .nav a:not(.whatsapp):hover{ background:#f4f4f5; }
-
-  .nav .whatsapp{
-    align-self:center; font-weight:700; margin-top:6px;
-  }
+  /* Links visibles y cómodos en el drawer */
+  .nav a{font-size:18px;padding:12px 14px}
+  .nav .btn.whatsapp{align-self:center;font-weight:700;margin-top:6px}
 }
-
-/* ===== Offset para anclas con header sticky ===== */
-:root { --header-h: 64px; }                 /* fallback */
-@media (min-width:768px){ :root { --header-h: 72px; } }
-
-/* Cualquier sección con id deja "aire" arriba al navegar por #ancla */
-section[id], :target {
-  scroll-margin-top: calc(var(--header-h) + 14px);
-}
-
-/* (opcional, ayuda a algunos navegadores) */
-html { scroll-padding-top: calc(var(--header-h) + 14px); }
