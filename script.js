@@ -1,39 +1,38 @@
-document.querySelector('.menu')?.addEventListener('click', () => {
-  const nav = document.querySelector('.nav');
-  if(!nav) return;
-  nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
-});
-
-// ====== Toggle del menú móvil (panel lateral) ======
-(function () {
+// Menú móvil: abre/cierra el overlay usando .open (coincide con el CSS)
+(() => {
   const menu = document.querySelector('.menu');
   const nav  = document.querySelector('.nav');
   if (!menu || !nav) return;
 
-  // fondo oscuro
-  let backdrop = document.querySelector('.backdrop');
-  if (!backdrop) {
-    backdrop = document.createElement('div');
-    backdrop.className = 'backdrop';
-    document.body.appendChild(backdrop);
-  }
-
-  const openNav = () => {
-    nav.classList.add('is-open');
-    backdrop.classList.add('show');
-    document.body.classList.add('nav-open');
+  const open = () => {
+    nav.classList.add('open');
+    menu.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('menu-open'); // opcional: para bloquear scroll
   };
-  const closeNav = () => {
-    nav.classList.remove('is-open');
-    backdrop.classList.remove('show');
-    document.body.classList.remove('nav-open');
+
+  const close = () => {
+    nav.classList.remove('open');
+    menu.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('menu-open');
   };
 
   menu.addEventListener('click', (e) => {
     e.preventDefault();
-    nav.classList.contains('is-open') ? closeNav() : openNav();
+    nav.classList.contains('open') ? close() : open();
   });
-  backdrop.addEventListener('click', closeNav);
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeNav(); });
-  nav.addEventListener('click', (e) => { if (e.target.closest('a')) closeNav(); });
+
+  // Cierra al navegar dentro del menú
+  nav.addEventListener('click', (e) => {
+    if (e.target.closest('a')) close();
+  });
+
+  // Cierra con ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') close();
+  });
+
+  // Si cambia a desktop, resetea el estado del menú
+  const mq = window.matchMedia('(min-width: 768px)');
+  const sync = () => { if (mq.matches) close(); };
+  mq.addEventListener ? mq.addEventListener('change', sync) : mq.addListener(sync);
 })();
