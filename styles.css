@@ -219,3 +219,55 @@ body.nav-open{ overflow:hidden; }
   }
   .menu{ display:none; }
 }
+
+/* ==== Ajustes de header / nav (móvil + desktop) ==== */
+
+/* 1) Más aire al logo en el borde izquierdo */
+.header .container{ padding-left:24px; }       /* antes 16px */
+.brand-logo{ margin-left:6px; }                /* + un poco más de colchón */
+
+/* 2) Centrar la barra de navegación en desktop */
+.header-inner{
+  display:grid;
+  grid-template-columns:auto 1fr auto;         /* [brand] [nav centrado] [botón menú] */
+  align-items:center;
+  gap:16px;
+}
+.nav{ justify-content:center; }                /* centra los links en el espacio central */
+
+/* 3) Menú móvil: overlay sin blur (texto nítido) */
+@media (max-width: 767px){
+  body.menu-open{ overflow:hidden; }
+  body.menu-open .nav{
+    position:fixed;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    padding:96px 24px 32px;                    /* baja el grupo bajo el header */
+    gap:26px;
+
+    /* Fondo sólido (sin blur) para que no se vea borroso */
+    background:rgba(10,10,10,.86);
+    -webkit-backdrop-filter:none;
+    backdrop-filter:none;
+  }
+  /* Links dentro del overlay */
+  body.menu-open .nav a{
+    color:#fff !important;
+    background:transparent;
+    font-size:22px;
+    padding:12px 20px;
+    border-radius:12px;
+  }
+  /* CTA verde de WhatsApp dentro del overlay */
+  body.menu-open .nav .btn.whatsapp{
+    background:#25d366;
+    color:#111;
+    border:1px solid #1ebe57;
+    font-weight:700;
+    font-size:20px;
+    padding:12px 22px;
+  }
+}
