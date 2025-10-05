@@ -96,8 +96,8 @@ body.nav-open{ overflow:hidden } /* bloquea scroll detrás */
 .hero::before{
   content:"";position:absolute;inset:0;
   background-image:
-    linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.35)),
-    url('https://www.septimapaginanoticias.cl/uploads/images/2025/05/image_750x_68399a9223cc3.jpg');
+  linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.35)),
+  url('hero.webp');
   background-size:cover;background-position:center;filter:saturate(1.05);
 }
 .hero>.inner{position:relative;z-index:1}
