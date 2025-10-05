@@ -1,0 +1,13 @@
+# robots.txt para veloso56.cl
+
+User-agent: *
+Allow: /
+
+# Bloquear páginas que no queremos indexar
+Disallow: /gracias.html
+
+# Sitemap
+Sitemap: https://veloso56.cl/sitemap.xml
+
+# Crawl-delay para ser amable con los bots
+Crawl-delay: 1
