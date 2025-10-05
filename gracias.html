@@ -2,32 +2,34 @@
 <html lang="es">
 <head>
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-42YTPKHN4N"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-42YTPKHN4N"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-42YTPKHN4N');
+  </script>
 
-  gtag('config', 'G-42YTPKHN4N');
-</script>
-    <!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1327183675569062'); // ← tu Pixel ID
-fbq('track', 'PageView');
-</script>
-<noscript>
-  <img height="1" width="1" style="display:none"
-       src="https://www.facebook.com/tr?id=1327183675569062&ev=PageView&noscript=1"/>
-</noscript>
-<!-- End Meta Pixel Code -->
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1327183675569062'); // ← tu Pixel ID
+    fbq('track', 'PageView');
+    fbq('track', 'Lead'); // ← Evento para conversión de voluntarios
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+         src="https://www.facebook.com/tr?id=1327183675569062&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Meta Pixel Code -->
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>¡Gracias por sumarte! — veloso56.cl</title>
@@ -36,7 +38,7 @@ fbq('track', 'PageView');
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2218%22 fill=%22%23e11d48%22/></svg>">
   <style>
-    /* Overrides SOLO para esta página de gracias: hace visibles los botones secundarios sobre fondo blanco */
+    /* Overrides SOLO para esta página de gracias */
     .btn.secondary { color:#111827; background:#F9FAFB; border-color:#E5E7EB; }
     .btn.secondary:hover { background:#F3F4F6; }
     .center { text-align:center }
@@ -75,14 +77,5 @@ fbq('track', 'PageView');
   </footer>
 
   <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
-
-  <!-- Disparos opcionales de tracking -->
-  <script>
-    if (typeof fbq === "function") { try { fbq('track','Lead'); } catch(_){} }
-    if (typeof gtag === "function") { try { gtag('event','conversion', { 'send_to': 'AW-XXXX/lead' }); } catch(_){} }
-  </script>
-  <script>
-  fbq('track', 'Lead');
-</script>
 </body>
 </html>
