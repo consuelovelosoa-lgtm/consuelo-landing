@@ -81,5 +81,8 @@ fbq('track', 'PageView');
     if (typeof fbq === "function") { try { fbq('track','Lead'); } catch(_){} }
     if (typeof gtag === "function") { try { gtag('event','conversion', { 'send_to': 'AW-XXXX/lead' }); } catch(_){} }
   </script>
+  <script>
+  fbq('track', 'Lead');
+</script>
 </body>
 </html>
