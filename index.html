@@ -319,6 +319,11 @@ fbq('track', 'PageView');
     } catch (_) {
       /* Aunque falle la lectura de respuesta, el POST ya habrá salido. */
     } finally {
+      // Dispara conversión (Meta + GA) en el submit, como respaldo al /gracias.html
+      try { fbq && fbq('track','Lead', {content_name:'lead_voluntario'}); } catch(e){}
+      try { gtag && gtag('event','lead_voluntario'); } catch(e){}
+      // Pequeña pausa opcional para asegurar salida de beacons
+      await new Promise(r=>setTimeout(r,120));
       location.href = next;
     }
   });
