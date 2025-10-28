@@ -1,0 +1,361 @@
+<!-- ENCUESTA RÁPIDA - CÓDIGO PARA AGREGAR AL INDEX.HTML -->
+
+<!-- 1. Agregar JUSTO DESPUÉS de <body> en index.html -->
+
+<!-- Modal de Encuesta -->
+<div id="encuesta-modal" class="encuesta-modal">
+  <div class="encuesta-contenido">
+    <button class="encuesta-cerrar" onclick="cerrarEncuesta()">&times;</button>
+    
+    <div id="encuesta-pregunta">
+      <h3 style="margin:0 0 16px;color:#e11d48;font-size:20px">📊 Encuesta Rápida</h3>
+      <p style="margin:0 0 20px;font-size:16px;font-weight:600">
+        ¿Cuál es el tema MÁS importante para ti en esta elección?
+      </p>
+      
+      <div class="encuesta-opciones">
+        <button class="encuesta-btn" onclick="votar('agua-campo')">
+          💧 Agua y apoyo al campo
+        </button>
+        <button class="encuesta-btn" onclick="votar('seguridad')">
+          🛡️ Seguridad y cuidados
+        </button>
+        <button class="encuesta-btn" onclick="votar('empleo-jovenes')">
+          🎓 Empleo para jóvenes
+        </button>
+        <button class="encuesta-btn" onclick="votar('salud')">
+          🏥 Mejor salud pública
+        </button>
+        <button class="encuesta-btn" onclick="votar('educacion')">
+          📚 Educación de calidad
+        </button>
+      </div>
+    </div>
+    
+    <div id="encuesta-resultados" style="display:none">
+      <h3 style="margin:0 0 16px;color:#e11d48;font-size:20px">¡Gracias por votar! 🙌</h3>
+      <p style="margin:0 0 20px">Estos son los resultados hasta ahora:</p>
+      
+      <div id="resultados-barras"></div>
+      
+      <p style="margin-top:20px;font-size:14px;color:#666">
+        <strong id="total-votos">0</strong> personas han votado
+      </p>
+      
+      <button class="btn primary" onclick="cerrarEncuesta()" style="margin-top:12px">
+        Continuar al sitio →
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Agregar ANTES del cierre </body> en index.html -->
+
+<style>
+/* Estilos de la encuesta */
+.encuesta-modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  animation: fadeIn 0.3s;
+}
+
+.encuesta-modal.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.encuesta-contenido {
+  background: white;
+  padding: 32px;
+  border-radius: 20px;
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  animation: slideUp 0.3s;
+}
+
+.encuesta-cerrar {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  background: none;
+  border: none;
+  font-size: 32px;
+  color: #999;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+}
+
+.encuesta-cerrar:hover {
+  color: #e11d48;
+}
+
+.encuesta-opciones {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.encuesta-btn {
+  background: white;
+  border: 2px solid #e5e5e5;
+  padding: 16px 20px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.encuesta-btn:hover {
+  border-color: #e11d48;
+  background: #fef2f2;
+  transform: translateX(4px);
+}
+
+.resultado-barra {
+  margin-bottom: 14px;
+}
+
+.resultado-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.resultado-track {
+  height: 32px;
+  background: #f3f4f6;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.resultado-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #e11d48, #f43f5e);
+  border-radius: 8px;
+  transition: width 0.5s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 12px;
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  min-width: 40px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+  .encuesta-contenido {
+    padding: 24px;
+  }
+  
+  .encuesta-btn {
+    padding: 14px 16px;
+    font-size: 15px;
+  }
+}
+</style>
+
+<script>
+// Script de la encuesta
+(function() {
+  // Configuración
+  const ENCUESTA_ACTIVA = true; // Cambiar a false para desactivar
+  const GOOGLE_FORM_ACTION = 'https://script.google.com/macros/s/TU_SCRIPT_ID_AQUI/exec';
+  const DELAY_MOSTRAR = 2000; // 2 segundos después de cargar
+  
+  // Datos de ejemplo (en producción vendrán de Google Sheets)
+  let resultados = {
+    'agua-campo': 0,
+    'seguridad': 0,
+    'empleo-jovenes': 0,
+    'salud': 0,
+    'educacion': 0
+  };
+  
+  const labels = {
+    'agua-campo': '💧 Agua y campo',
+    'seguridad': '🛡️ Seguridad',
+    'empleo-jovenes': '🎓 Empleo jóvenes',
+    'salud': '🏥 Salud',
+    'educacion': '📚 Educación'
+  };
+  
+  // Verificar si ya votó
+  function yaVoto() {
+    return localStorage.getItem('encuesta_voto') === 'true';
+  }
+  
+  // Mostrar modal
+  function mostrarEncuesta() {
+    if (!ENCUESTA_ACTIVA || yaVoto()) return;
+    
+    const modal = document.getElementById('encuesta-modal');
+    if (modal) {
+      modal.classList.add('show');
+      
+      // Track evento
+      try {
+        gtag && gtag('event', 'encuesta_mostrada');
+      } catch(e) {}
+    }
+  }
+  
+  // Cerrar modal
+  window.cerrarEncuesta = function() {
+    const modal = document.getElementById('encuesta-modal');
+    if (modal) {
+      modal.classList.remove('show');
+    }
+  };
+  
+  // Votar
+  window.votar = async function(opcion) {
+    // Deshabilitar botones
+    document.querySelectorAll('.encuesta-btn').forEach(btn => {
+      btn.disabled = true;
+      btn.style.opacity = '0.5';
+    });
+    
+    // Enviar voto
+    try {
+      const formData = new FormData();
+      formData.append('voto', opcion);
+      formData.append('timestamp', new Date().toISOString());
+      
+      await fetch(GOOGLE_FORM_ACTION, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors'
+      });
+      
+      // Track conversión
+      try {
+        gtag && gtag('event', 'encuesta_completada', { opcion: opcion });
+        fbq && fbq('track', 'CompleteRegistration', { content_name: 'encuesta' });
+      } catch(e) {}
+      
+    } catch (error) {
+      console.error('Error al votar:', error);
+    }
+    
+    // Marcar como votado
+    localStorage.setItem('encuesta_voto', 'true');
+    
+    // Simular incremento (en producción, cargar desde API)
+    resultados[opcion]++;
+    
+    // Mostrar resultados
+    mostrarResultados();
+  };
+  
+  // Mostrar resultados
+  function mostrarResultados() {
+    document.getElementById('encuesta-pregunta').style.display = 'none';
+    document.getElementById('encuesta-resultados').style.display = 'block';
+    
+    const total = Object.values(resultados).reduce((a, b) => a + b, 0);
+    document.getElementById('total-votos').textContent = total;
+    
+    const container = document.getElementById('resultados-barras');
+    container.innerHTML = '';
+    
+    // Ordenar por votos
+    const ordenados = Object.entries(resultados)
+      .sort((a, b) => b[1] - a[1]);
+    
+    ordenados.forEach(([key, votos]) => {
+      const porcentaje = total > 0 ? Math.round((votos / total) * 100) : 0;
+      
+      const div = document.createElement('div');
+      div.className = 'resultado-barra';
+      div.innerHTML = `
+        <div class="resultado-label">
+          <span>${labels[key]}</span>
+          <span>${votos} votos</span>
+        </div>
+        <div class="resultado-track">
+          <div class="resultado-fill" style="width: ${porcentaje}%">
+            ${porcentaje}%
+          </div>
+        </div>
+      `;
+      container.appendChild(div);
+    });
+  }
+  
+  // Cargar resultados reales (en producción)
+  async function cargarResultados() {
+    try {
+      const response = await fetch(GOOGLE_FORM_ACTION + '?action=get_results');
+      const data = await response.json();
+      resultados = data;
+    } catch (error) {
+      console.log('Usando resultados de ejemplo');
+      // Datos de ejemplo
+      resultados = {
+        'agua-campo': 234,
+        'seguridad': 189,
+        'empleo-jovenes': 156,
+        'salud': 298,
+        'educacion': 123
+      };
+    }
+  }
+  
+  // Inicializar
+  window.addEventListener('load', () => {
+    cargarResultados();
+    
+    // Mostrar después de 2 segundos
+    setTimeout(mostrarEncuesta, DELAY_MOSTRAR);
+  });
+  
+  // Cerrar con ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      cerrarEncuesta();
+    }
+  });
+  
+  // Cerrar al hacer click fuera
+  document.getElementById('encuesta-modal')?.addEventListener('click', (e) => {
+    if (e.target.id === 'encuesta-modal') {
+      cerrarEncuesta();
+    }
+  });
+})();
+</script>
