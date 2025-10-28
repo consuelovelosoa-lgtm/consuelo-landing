@@ -615,35 +615,67 @@ document.getElementById('encuesta-modal')?.addEventListener('click', e => {
 })();
 </script>
 
-<!-- Tarjeta 9:16 para compartir (oculta) -->
-<div id="share-card" aria-hidden="true" style="
-  position:fixed; left:-9999px; top:-9999px;
-  width:1080px; height:1920px;
-  display:flex; flex-direction:column; justify-content:space-between;
-  background:#0f172a; color:#fff; padding:80px; box-sizing:border-box;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,'Helvetica Neue',Arial">
+<!-- Tarjeta 9:16 para compartir (estilo poster con foto de fondo) -->
+<style>
+  /* Estilos SOLO para la tarjeta de compartir */
+  #share-card {
+    position:fixed; left:-9999px; top:-9999px;
+    width:1080px; height:1920px;
+    display:flex; flex-direction:column; justify-content:space-between;
+    /* FOTO DE FONDO + DEGRADADO PARA CONTRASTE */
+    background-image:
+      linear-gradient(to bottom, rgba(10,15,25,.55), rgba(10,15,25,.85)),
+      url('consuelo.webp'); /* puedes usar 'consuelo.webp' si la subes así */
+    background-size:cover; background-position:center;
+    color:#fff; padding:96px 84px; box-sizing:border-box;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,'Helvetica Neue',Arial;
+    letter-spacing:.2px;
+  }
+  #share-card .title {font-size:76px; font-weight:900; line-height:1.05; margin:0; text-shadow:0 3px 20px rgba(0,0,0,.35)}
+  #share-card .subtitle {font-size:40px; opacity:.95; margin:10px 0 0; text-shadow:0 2px 16px rgba(0,0,0,.35)}
+  #share-card .list {display:flex; flex-direction:column; gap:22px; margin:34px 0 0}
+  #share-card .row {display:flex; align-items:flex-start; gap:22px}
+  #share-card .pct {
+    width:170px; min-width:170px; text-align:right;
+    font-size:64px; font-weight:900; line-height:1; text-shadow:0 2px 16px rgba(0,0,0,.35)
+  }
+  #share-card .label {
+    font-size:44px; line-height:1.22; font-weight:700; text-shadow:0 2px 16px rgba(0,0,0,.35)
+  }
+  #share-card .muted {opacity:.9; font-weight:600}
+  #share-card footer {display:flex; justify-content:space-between; align-items:flex-end}
+  #share-card .meta {font-size:30px; opacity:.9}
+  #share-card .brand-wrap {text-align:right}
+  #share-card .cta {
+    display:inline-block; padding:10px 18px; border-radius:999px;
+    background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.28);
+    font-size:34px; font-weight:900; text-decoration:none; color:#fff
+  }
+</style>
+
+<div id="share-card" aria-hidden="true">
   <header>
-    <div style="font-size:64px;font-weight:800;line-height:1.1;margin:0">Encuesta</div>
-    <div id="share-question" style="margin-top:6px;font-size:36px;opacity:.9"></div>
+    <div class="title">Encuesta</div>
+    <div id="share-question" class="subtitle"></div>
   </header>
 
-  <div id="share-results" style="display:flex;flex-direction:column;gap:18px;font-size:40px"></div>
+  <div class="list" id="share-results"></div>
 
-  <footer style="display:flex;justify-content:space-between;align-items:flex-end">
+  <footer>
     <div>
-      <div style="font-size:32px;opacity:.85">Total: <span id="share-total">0</span> votos</div>
-      <div style="font-size:28px;opacity:.75">Actualizado: <span id="share-date"></span></div>
+      <div class="meta">Total: <span id="share-total">0</span> votos</div>
+      <div class="meta">Actualizado: <span id="share-date"></span></div>
     </div>
-    <div style="text-align:right">
-      <div style="font-size:28px;opacity:.85">Participa en</div>
-      <div id="share-host" style="font-size:40px;font-weight:800"></div>
+    <div class="brand-wrap">
+      <div class="muted" style="font-size:28px;margin-bottom:8px">Participa en</div>
+      <span id="share-host" class="cta"></span>
     </div>
   </footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
 <script>
-  // Conecta el botón al generador cuando el DOM esté listo
+  // Enlaza el botón cuando el DOM esté listo
   window.addEventListener('DOMContentLoaded', function(){
     const btn = document.getElementById('btn-share');
     if (btn) btn.addEventListener('click', shareEncuesta);
@@ -651,37 +683,33 @@ document.getElementById('encuesta-modal')?.addEventListener('click', e => {
 
   async function shareEncuesta(){
     try{
-      // 1) Completa la tarjeta con datos actuales
+      // 1) Completar textos base
       document.getElementById('share-question').textContent = (typeof QUESTION !== 'undefined' ? QUESTION : 'Encuesta');
       document.getElementById('share-host').textContent = location.host.replace(/^www\./,'');
       document.getElementById('share-date').textContent = new Date().toLocaleString();
       document.getElementById('share-total').textContent = (document.getElementById('total-votos')?.textContent || '0');
 
-      // Copia las filas actuales del resultado (desde tu UI)
+      // 2) Construir filas bonitas (43% • 🏥 Mejor salud pública)
       const dst = document.getElementById('share-results');
       dst.innerHTML = '';
       const rows = document.querySelectorAll('#resultados-barras .resultado-barra');
       rows.forEach(row=>{
         const label = row.querySelector('.resultado-label span')?.textContent || '';
         const pct   = row.querySelector('.resultado-fill')?.textContent || '';
-        const line  = document.createElement('div');
-        line.textContent = `${pct}  •  ${label}`;
-        dst.appendChild(line);
+        const wrap  = document.createElement('div');
+        wrap.className = 'row';
+        wrap.innerHTML = `<div class="pct">${pct}</div><div class="label">${label}</div>`;
+        dst.appendChild(wrap);
       });
 
-      // 2) Renderiza a imagen 1080x1920
+      // 3) Capturar a PNG (1080x1920)
       const node = document.getElementById('share-card');
       const canvas = await html2canvas(node, {scale: 1, backgroundColor: null});
       const blob = await new Promise(r => canvas.toBlob(r, 'image/png', 0.95));
       const file = new File([blob], 'encuesta.png', {type:'image/png'});
 
-      // 3) Intenta compartir nativo (móvil); si no, descarga el PNG
-      const shareData = {
-        files: [file],
-        text: 'Mira cómo va la encuesta y participa:',
-        url: location.href
-      };
-
+      // 4) Compartir nativo si existe; si no, descargar
+      const shareData = { files:[file], text:'Mira cómo va la encuesta y participa:', url: location.href };
       if (navigator.canShare && navigator.canShare({files:[file]})) {
         await navigator.share(shareData);
       } else {
@@ -694,7 +722,7 @@ document.getElementById('encuesta-modal')?.addEventListener('click', e => {
       }
     }catch(err){
       console.error(err);
-      alert('No pudimos generar la imagen. Intenta con un navegador móvil reciente.');
+      alert('No pudimos generar la imagen. Prueba desde un navegador móvil reciente.');
     }
   }
 </script>
