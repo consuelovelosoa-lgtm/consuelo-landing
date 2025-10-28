@@ -1,3 +1,89 @@
+// ====== CONFIG ENCUESTA ======
+const API_URL    = 'https://script.google.com/macros/s/AKfycbyFza082lJGBzyiZhgzpMQ8HCh0wiMraFTsLElhw7Hy7FStBYOaMsm8eJ5OaaIixhaIPg/exec';
+const API_SECRET = 'encuesta_2025_super_secreto';
+const SURVEY_ID  = 'enc-2025-01'; // cámbialo cuando cambies la pregunta
+const QUESTION   = '¿Cuál es tu prioridad para Maule Sur?';
+// ==============================
+
+function getVoterId(){
+  let id = localStorage.getItem('enc_voterId');
+  if(!id){
+    id = (crypto.randomUUID ? crypto.randomUUID() : ('v_'+Math.random().toString(36).slice(2)));
+    localStorage.setItem('enc_voterId', id);
+  }
+  return id;
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', fetchResults);
+} else {
+  fetchResults();
+}
+
+async function fetchResults(){
+  try{
+    const r = await fetch(`${API_URL}?surveyId=${encodeURIComponent(SURVEY_ID)}`);
+    const data = await r.json();
+    renderResults(data);
+  }catch(e){ console.warn(e); }
+}
+
+async function sendVote(optionId, optionText){
+  try{
+    toggleVoting(false);
+    const payload = {
+      secret: API_SECRET,
+      surveyId: SURVEY_ID,
+      question: QUESTION,
+      optionId,
+      optionText,
+      voterId: getVoterId()
+    };
+    const r = await fetch(API_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    });
+    const data = await r.json();
+    if(!data.ok) throw new Error(data.error || 'Error');
+    renderResults(data);
+    localStorage.setItem(`voted_${SURVEY_ID}`, optionId);
+  }catch(e){
+    alert('No pudimos registrar tu voto. Intenta de nuevo.');
+    console.error(e);
+  }finally{
+    toggleVoting(true);
+  }
+}
+
+function toggleVoting(enable){
+  document.querySelectorAll('.encuesta input[type="radio"], .encuesta button')
+    .forEach(el => el.disabled = !enable);
+}
+
+function renderResults(data){
+  if(!data || !data.ok) return;
+  const cont = document.getElementById('encuesta-resultados');
+  if(!cont) return;
+
+  cont.innerHTML = '';
+  data.options.forEach(o => {
+    const row = document.createElement('div');
+    row.className = 'resultado-row';
+    row.innerHTML = `
+      <div class="resultado-top">
+        <span class="opcion">${o.text}</span>
+        <span class="porcentaje">${o.percent}%</span>
+      </div>
+      <div class="bar"><div class="fill" style="width:${o.percent}%"></div></div>
+      <div class="cuenta">${o.count} voto${o.count===1?'':'s'}</div>
+    `;
+    cont.appendChild(row);
+  });
+  const totalEl = document.getElementById('encuesta-total');
+  if(totalEl) totalEl.textContent = data.total.toString();
+}
+
 /* ====== Menú móvil: drawer derecho ====== */
 (() => {
   'use strict';
