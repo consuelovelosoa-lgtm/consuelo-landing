@@ -31,6 +31,7 @@ async function fetchResults(){
 async function sendVote(optionId, optionText){
   try{
     toggleVoting(false);
+
     const payload = {
       secret: API_SECRET,
       surveyId: SURVEY_ID,
@@ -39,13 +40,22 @@ async function sendVote(optionId, optionText){
       optionText,
       voterId: getVoterId()
     };
+
+    // IMPORTANTE: usar text/plain para evitar preflight/CORS con Apps Script
     const r = await fetch(API_URL, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload)
     });
-    const data = await r.json();
-    if(!data.ok) throw new Error(data.error || 'Error');
+
+    // Apps Script responde JSON; lo leemos como texto y luego parseamos
+    const text = await r.text();
+    let data;
+    try { data = JSON.parse(text); }
+    catch { throw new Error('Respuesta no válida del servidor'); }
+
+    if (!data.ok) throw new Error(data.error || 'Error al guardar');
+
     renderResults(data);
     localStorage.setItem(`voted_${SURVEY_ID}`, optionId);
   }catch(e){
