@@ -73,25 +73,37 @@ function toggleVoting(enable){
 
 function renderResults(data){
   if(!data || !data.ok) return;
-  const cont = document.getElementById('encuesta-resultados');
-  if(!cont) return;
 
-  cont.innerHTML = '';
-  data.options.forEach(o => {
-    const row = document.createElement('div');
-    row.className = 'resultado-row';
-    row.innerHTML = `
-      <div class="resultado-top">
-        <span class="opcion">${o.text}</span>
-        <span class="porcentaje">${o.percent}%</span>
+  // Actualiza el total
+  const totalEl = document.getElementById('total-votos'); // <-- id correcto del HTML
+  if (totalEl) totalEl.textContent = (data.total || 0).toString();
+
+  // Solo rellenamos el contenedor de barras (NO tocamos #encuesta-resultados)
+  const bars = document.getElementById('resultados-barras'); // <-- contenedor correcto
+  if (!bars) return;
+  bars.innerHTML = '';
+
+  // Ordenar y pintar
+  const opts = (data.options || []).slice().sort((a,b)=>b.count-a.count);
+  opts.forEach(o => {
+    const labelMap = (typeof LABELS_ENCUESTA !== 'undefined') ? LABELS_ENCUESTA : {};
+    const texto = labelMap[o.id] || o.text || o.id;
+    const pct   = Math.max(0, Math.min(100, o.percent|0));
+    const votos = o.count|0;
+
+    const div = document.createElement('div');
+    div.className = 'resultado-barra'; // <-- coincide con tu CSS
+    div.innerHTML = `
+      <div class="resultado-label">
+        <span>${texto}</span>
+        <span>${votos} voto${votos===1?'':'s'}</span>
       </div>
-      <div class="bar"><div class="fill" style="width:${o.percent}%"></div></div>
-      <div class="cuenta">${o.count} voto${o.count===1?'':'s'}</div>
+      <div class="resultado-track">
+        <div class="resultado-fill" style="width:${pct}%">${pct}%</div>
+      </div>
     `;
-    cont.appendChild(row);
+    bars.appendChild(div);
   });
-  const totalEl = document.getElementById('encuesta-total');
-  if(totalEl) totalEl.textContent = data.total.toString();
 }
 
 /* ====== Menú móvil: drawer derecho ====== */
