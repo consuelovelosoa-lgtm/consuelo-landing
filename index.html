@@ -272,176 +272,70 @@ fbq('track', 'PageView');
 }
 </style>
 
-<script>
-// Script de la encuesta
-(function() {
-  // Configuración
-  const ENCUESTA_ACTIVA = true; // Cambiar a false para desactivar
-  const GOOGLE_FORM_ACTION = 'https://script.google.com/macros/s/TU_SCRIPT_ID_AQUI/exec';
-  const DELAY_MOSTRAR = 2000; // 2 segundos después de cargar
-  
-  // Datos de ejemplo (en producción vendrán de Google Sheets)
-  let resultados = {
-    'agua-campo': 0,
-    'seguridad': 0,
-    'empleo-jovenes': 0,
-    'salud': 0,
-    'educacion': 0
-  };
-  
-  const labels = {
-    'agua-campo': '💧 Agua y campo',
-    'seguridad': '🛡️ Seguridad',
-    'empleo-jovenes': '🎓 Empleo jóvenes',
-    'salud': '🏥 Salud',
-    'educacion': '📚 Educación'
-  };
-  
-  // Verificar si ya votó
-  function yaVoto() {
-    return localStorage.getItem('encuesta_voto') === 'true';
-  }
-  
-  // Mostrar modal
-  function mostrarEncuesta() {
-    if (!ENCUESTA_ACTIVA || yaVoto()) return;
-    
-    const modal = document.getElementById('encuesta-modal');
-    if (modal) {
-      modal.classList.add('show');
-      
-      // Track evento
-      try {
-        gtag && gtag('event', 'encuesta_mostrada');
-      } catch(e) {}
-    }
-  }
-  
-  // Cerrar modal
-  window.cerrarEncuesta = function() {
-    const modal = document.getElementById('encuesta-modal');
-    if (modal) {
-      modal.classList.remove('show');
-    }
-  };
-  
-  // Votar
-  window.votar = async function(opcion) {
-    // Deshabilitar botones
+  <script>
+/* Reemplazo del script de la encuesta (conecta el modal a tu Apps Script)
+   No toques API_URL/SECRET aquí: ya están en script.js.  */
+
+/* 1) Mapa id -> texto visible (para mostrar en resultados) */
+const LABELS_ENCUESTA = {
+  'agua-campo': '💧 Agua y apoyo al campo',
+  'seguridad': '🛡️ Seguridad y cuidados',
+  'empleo-jovenes': '🎓 Empleo para jóvenes',
+  'salud': '🏥 Mejor salud pública',
+  'educacion': '📚 Educación de calidad'
+};
+
+/* 2) Llamado por los botones del modal: onclick="votar('agua-campo')"  */
+window.votar = async function(optionId){
+  const optionText = LABELS_ENCUESTA[optionId] || optionId;
+
+  // Deshabilita botones para evitar doble click
+  document.querySelectorAll('.encuesta-btn').forEach(btn => {
+    btn.disabled = true; btn.style.opacity = '0.6';
+  });
+
+  try{
+    // Usa el backend real definido en script.js (sendVote)
+    await sendVote(optionId, optionText);
+
+    // Cambia a la vista de resultados del modal
+    const pregunta = document.getElementById('encuesta-pregunta');
+    const resultados = document.getElementById('encuesta-resultados');
+    if (pregunta)   pregunta.style.display = 'none';
+    if (resultados) resultados.style.display = 'block';
+  }catch(e){
+    console.error(e);
+    alert('No pudimos registrar tu voto. Intenta de nuevo.');
+  }finally{
     document.querySelectorAll('.encuesta-btn').forEach(btn => {
-      btn.disabled = true;
-      btn.style.opacity = '0.5';
-    });
-    
-    // Enviar voto
-    try {
-      const formData = new FormData();
-      formData.append('voto', opcion);
-      formData.append('timestamp', new Date().toISOString());
-      
-      await fetch(GOOGLE_FORM_ACTION, {
-        method: 'POST',
-        body: formData,
-        mode: 'no-cors'
-      });
-      
-      // Track conversión
-      try {
-        gtag && gtag('event', 'encuesta_completada', { opcion: opcion });
-        fbq && fbq('track', 'CompleteRegistration', { content_name: 'encuesta' });
-      } catch(e) {}
-      
-    } catch (error) {
-      console.error('Error al votar:', error);
-    }
-    
-    // Marcar como votado
-    localStorage.setItem('encuesta_voto', 'true');
-    
-    // Simular incremento (en producción, cargar desde API)
-    resultados[opcion]++;
-    
-    // Mostrar resultados
-    mostrarResultados();
-  };
-  
-  // Mostrar resultados
-  function mostrarResultados() {
-    document.getElementById('encuesta-pregunta').style.display = 'none';
-    document.getElementById('encuesta-resultados').style.display = 'block';
-    
-    const total = Object.values(resultados).reduce((a, b) => a + b, 0);
-    document.getElementById('total-votos').textContent = total;
-    
-    const container = document.getElementById('resultados-barras');
-    container.innerHTML = '';
-    
-    // Ordenar por votos
-    const ordenados = Object.entries(resultados)
-      .sort((a, b) => b[1] - a[1]);
-    
-    ordenados.forEach(([key, votos]) => {
-      const porcentaje = total > 0 ? Math.round((votos / total) * 100) : 0;
-      
-      const div = document.createElement('div');
-      div.className = 'resultado-barra';
-      div.innerHTML = `
-        <div class="resultado-label">
-          <span>${labels[key]}</span>
-          <span>${votos} votos</span>
-        </div>
-        <div class="resultado-track">
-          <div class="resultado-fill" style="width: ${porcentaje}%">
-            ${porcentaje}%
-          </div>
-        </div>
-      `;
-      container.appendChild(div);
+      btn.disabled = false; btn.style.opacity = '';
     });
   }
-  
-  // Cargar resultados reales (en producción)
-  async function cargarResultados() {
-    try {
-      const response = await fetch(GOOGLE_FORM_ACTION + '?action=get_results');
-      const data = await response.json();
-      resultados = data;
-    } catch (error) {
-      console.log('Usando resultados de ejemplo');
-      // Datos de ejemplo
-      resultados = {
-        'agua-campo': 234,
-        'seguridad': 189,
-        'empleo-jovenes': 156,
-        'salud': 298,
-        'educacion': 123
-      };
-    }
-  }
-  
-  // Inicializar
-  window.addEventListener('load', () => {
-    cargarResultados();
-    
-    // Mostrar después de 2 segundos
-    setTimeout(mostrarEncuesta, DELAY_MOSTRAR);
-  });
-  
-  // Cerrar con ESC
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      cerrarEncuesta();
-    }
-  });
-  
-  // Cerrar al hacer click fuera
-  document.getElementById('encuesta-modal')?.addEventListener('click', (e) => {
-    if (e.target.id === 'encuesta-modal') {
-      cerrarEncuesta();
-    }
-  });
-})();
+};
+
+/* 3) Abrir/cerrar el modal */
+function mostrarEncuesta(){
+  // Si ya votó en esta encuesta, no mostramos de nuevo
+  try{
+    if (localStorage.getItem(`voted_${SURVEY_ID}`)) return;
+  }catch(_){}
+  document.getElementById('encuesta-modal')?.classList.add('show');
+}
+window.cerrarEncuesta = function(){
+  document.getElementById('encuesta-modal')?.classList.remove('show');
+};
+
+/* Mostrar a los 2s de cargar */
+window.addEventListener('load', () => setTimeout(mostrarEncuesta, 2000));
+
+/* Cerrar con ESC y clic fuera */
+document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarEncuesta(); });
+document.getElementById('encuesta-modal')?.addEventListener('click', e => {
+  if (e.target.id === 'encuesta-modal') cerrarEncuesta();
+});
 </script>
+
+
 <header class="header">
   <div class="container header-inner">
     <div class="brand">
