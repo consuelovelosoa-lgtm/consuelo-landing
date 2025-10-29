@@ -355,6 +355,69 @@ document.getElementById('encuesta-modal')?.addEventListener('click', e => {
   </div>
 </header>
 
+<!-- Banner urgencia -->
+<div id="banner-urg" role="status" aria-live="polite"
+     style="background:#e11d48;color:#fff;padding:12px 0;text-align:center;position:sticky;z-index:40;box-shadow:0 4px 12px rgba(0,0,0,.2)">
+  <div class="container">
+    <p style="margin:0;font-weight:700;font-size:16px">
+      ⏰ <span id="urg-restante">Faltan <strong id="urg-num">…</strong> <span id="urg-unidad">días</span></span>
+      • <a href="donde-voto.html" style="color:#fff;text-decoration:underline">¿Dónde voto?</a>
+      • <a href="#sumate" style="color:#fff;text-decoration:underline">Súmate</a>
+    </p>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Fechas oficiales Chile (hora aprox. de apertura de mesas)
+  const FIRST_ROUND  = new Date('2025-11-16T08:00:00-03:00');
+  const RUNOFF_ROUND = new Date('2025-12-14T08:00:00-03:00');
+
+  const banner = document.getElementById('banner-urg');
+  const numEl  = document.getElementById('urg-num');
+  const uniEl  = document.getElementById('urg-unidad');
+  const resto  = document.getElementById('urg-restante');
+
+  function targetDate(now){
+    if (now < FIRST_ROUND) return FIRST_ROUND;
+    if (now < RUNOFF_ROUND) return RUNOFF_ROUND;
+    return null;
+  }
+
+  function actualizar(){
+    const now = new Date();
+    const tgt = targetDate(now);
+    if (!tgt) { banner?.remove(); return; }
+
+    const diff = tgt - now;
+    if (diff <= 0) { resto.innerHTML = '¡Hoy se vota! 🗳️'; return; }
+
+    const MS_DIA = 86400000, MS_HORA = 3600000;
+    const dias  = Math.floor(diff / MS_DIA);
+    const horas = Math.floor((diff % MS_DIA) / MS_HORA);
+
+    if (dias >= 1) {
+      numEl.textContent = dias;
+      uniEl.textContent = (dias === 1 ? 'día' : 'días');
+    } else {
+      numEl.textContent = horas;
+      uniEl.textContent = (horas === 1 ? 'hora' : 'horas');
+    }
+  }
+
+  // Ajusta el sticky al alto real del header
+  function ajustarTop(){
+    const header = document.querySelector('.header');
+    if (header && banner) banner.style.top = header.offsetHeight + 'px';
+  }
+
+  actualizar();
+  ajustarTop();
+  setInterval(actualizar, 60000);          // cada minuto
+  window.addEventListener('resize', ajustarTop);
+})();
+</script>
+
 <main id="inicio">
   <!-- HERO -->
   <section class="hero" role="region" aria-labelledby="hero-title">
