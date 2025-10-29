@@ -8,6 +8,7 @@
   --ring:#e5e5e5;
   --shadow:0 1px 2px rgba(0,0,0,.05),0 4px 12px rgba(0,0,0,.06);
   --radius:16px;
+  --sticky-offset:120px; /* margen para anclas (desktop) */
 }
 
 /* ---------- Reset básico ---------- */
@@ -128,6 +129,15 @@ body.nav-open{ overflow:hidden } /* bloquea scroll detrás */
 
 /* ---------- Secciones / tarjetas ---------- */
 .section{padding:56px 0}
+
+/* Ajuste: que las anclas (p.ej. #sumate) no queden tapadas por header/banner */
+section[id]{
+  scroll-margin-top: var(--sticky-offset, 150px); /* fallback si la variable no carga */
+}
+#sumate-form{
+  scroll-margin-top: var(--sticky-offset, 150px); /* por si enlazas directo al formulario */
+}
+
 .grid{display:grid;gap:20px}
 @media (min-width:900px){
   .grid-2{grid-template-columns:1fr 1fr}
@@ -166,6 +176,8 @@ body.nav-open{ overflow:hidden } /* bloquea scroll detrás */
 
 /* ---------- Ajustes móviles (botón Menú y drawer) ---------- */
 @media (max-width:767px){
+  :root{ --sticky-offset:170px; } /* más espacio en móvil por header + banner */
+
   /* Botón Menú más proporcionado */
   .menu.btn{
     height:40px; line-height:40px; padding:0 16px;
