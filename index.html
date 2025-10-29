@@ -617,24 +617,24 @@ document.getElementById('encuesta-modal')?.addEventListener('click', e => {
 
 <!-- Tarjeta 9:16 para compartir (estilo poster con foto de fondo) -->
 <style>
-  /* SHARE STORY – versión Instagram */
+  /* SHARE STORY – ajustes IG */
   #share-card{
     position:fixed; left:-9999px; top:-9999px;
     width:1080px; height:1920px;
     display:flex; flex-direction:column; justify-content:space-between;
 
-    /* Safe-zones para UI de Instagram */
-    padding:260px 84px 220px; /* top / lados / bottom */
+    /* safe-zone para UI de IG */
+    padding:260px 84px 220px;
 
-    /* FOTO + degradado (más contraste abajo) */
+    /* fondo con foto + degradado */
     background-image:
       linear-gradient(to bottom,
-        rgba(10,15,25,.20) 0%,
-        rgba(10,15,25,.38) 45%,
-        rgba(10,15,25,.78) 100%),
-      url('votacion.webp');          /* tu imagen de fondo */
+        rgba(10,15,25,.28) 0%,
+        rgba(10,15,25,.50) 45%,
+        rgba(10,15,25,.85) 100%),
+      url('votacion.webp');
     background-size:cover;
-    background-position:center 35%;   /* sube/baja el encuadre aquí */
+    background-position:center 35%;
     background-repeat:no-repeat;
 
     color:#fff; box-sizing:border-box;
@@ -642,26 +642,35 @@ document.getElementById('encuesta-modal')?.addEventListener('click', e => {
     letter-spacing:.2px;
   }
 
-  /* Jerarquía de textos */
+  /* Título e intro */
   #share-card .title{
     font-size:88px; font-weight:900; line-height:1.02; margin:0;
+    white-space:nowrap;                           /* 1 sola línea */
     text-shadow:0 3px 20px rgba(0,0,0,.35);
   }
   #share-card .subtitle{
     font-size:44px; margin:12px 0 0; opacity:.98;
+    white-space:pre-line;                         /* respeta el \n */
+    max-width:760px;                              /* corta antes de la cara */
     text-shadow:0 2px 16px rgba(0,0,0,.35);
   }
 
-  /* Lista de resultados */
-  #share-card .list{ display:flex; flex-direction:column; gap:28px; margin-top:44px; }
-  #share-card .row{ display:flex; align-items:flex-start; gap:22px; }
+  /* Lista de resultados – grid para alinear % y texto */
+  #share-card .list{ margin-top:44px; display:flex; flex-direction:column; gap:28px; }
+  #share-card .row{
+    display:grid;
+    grid-template-columns: 180px 1fr;             /* col fija para % */
+    align-items:center;
+    column-gap:22px;
+  }
   #share-card .pct{
-    width:180px; min-width:180px; text-align:right;
+    justify-self:end;                              /* % a la derecha */
     font-size:72px; font-weight:900; line-height:1;
     text-shadow:0 2px 16px rgba(0,0,0,.35);
   }
   #share-card .label{
     font-size:46px; line-height:1.22; font-weight:800;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; /* 1 sola línea */
     text-shadow:0 2px 16px rgba(0,0,0,.35);
   }
 
@@ -669,15 +678,20 @@ document.getElementById('encuesta-modal')?.addEventListener('click', e => {
   #share-card footer{ display:flex; justify-content:space-between; align-items:flex-end; }
   #share-card .meta{ font-size:30px; opacity:.92; }
   #share-card .brand-wrap{ text-align:right; }
-  #share-card .cta{
-    display:inline-block; padding:12px 22px; border-radius:999px;
-    background:#fff; color:#0a0a0a; border:0;
-    font-size:36px; font-weight:900; text-decoration:none;
-    box-shadow:0 8px 24px rgba(0,0,0,.25);
+  #share-card .brand-wrap .muted{
+    font-size:34px; margin-bottom:10px; color:#fff; opacity:.95;
+    text-shadow:0 2px 12px rgba(0,0,0,.35);
   }
-  /* Si prefieres el CTA con color de marca, descomenta: */
-  /* #share-card .cta{ background:#e11d48; color:#fff; } */
+  #share-card .cta{
+    display:inline-flex; align-items:center; justify-content:center;
+    min-width:420px; height:86px; padding:14px 26px;
+    border-radius:999px; background:#fff; color:#0a0a0a; border:0;
+    font-size:36px; font-weight:900; text-decoration:none;
+    box-shadow:0 10px 28px rgba(0,0,0,.25);
+    text-align:center;
+  }
 </style>
+
 
 <div id="share-card" aria-hidden="true">
   <header>
