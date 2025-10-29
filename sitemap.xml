@@ -1,33 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-  
-  <!-- Página principal -->
+
+  <!-- Home -->
   <url>
     <loc>https://veloso56.cl/</loc>
-    <lastmod>2025-10-05</lastmod>
+    <lastmod>2025-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://veloso56.cl/logo-56.png</image:loc>
-      <image:title>Logo Consuelo Veloso</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://veloso56.cl/hero.webp</image:loc>
     </image:image>
   </url>
-  
-  <!-- Propuestas -->
+
+  <!-- Logros -->
   <url>
-    <loc>https://veloso56.cl/propuestas.html</loc>
-    <lastmod>2025-10-05</lastmod>
+    <loc>https://veloso56.cl/logros.html</loc>
+    <lastmod>2025-10-29</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  
-  <!-- Noticias -->
-  <url>
-    <loc>https://veloso56.cl/noticias.html</loc>
-    <lastmod>2025-10-05</lastmod>
-    <changefreq>daily</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://veloso56.cl/logo-56.png</image:loc>
+    </image:image>
+  </url>
+
+  <!-- ¿Dónde voto? -->
+  <url>
+    <loc>https://veloso56.cl/donde-voto.html</loc>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://veloso56.cl/votocongreso-1100.webp</image:loc>
+    </image:image>
   </url>
 
 </urlset>
