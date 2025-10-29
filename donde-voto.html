@@ -38,7 +38,19 @@
 
   <style>
     .hero-donde{background:#fef2f2;padding:0 0 32px}
-    .hero-img{display:block;max-width:1100px;width:100%;margin:0 auto;border-radius:20px;border:2px solid #ffe2e8}
+    .hero-img{
+      display:block;
+      width:100%;
+      max-width:1100px;
+      /* 👇 fuerza formato horizontal tipo banner */
+      aspect-ratio:16/9;
+      height:auto;            /* el alto lo calculará por el aspect-ratio */
+      object-fit:cover;       /* recorta sobrante si la foto es vertical */
+      object-position:center; /* ajusta el encuadre; prueba "50% 35%" si quieres más arriba */
+      border-radius:20px;
+      border:2px solid #ffe2e8;
+      margin:0 auto;
+    }
     .paso{background:#fff;padding:24px;border-radius:16px;border-left:4px solid #e11d48;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
     .paso-numero{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:#e11d48;color:#fff;border-radius:50%;font-weight:800;font-size:18px;margin-bottom:12px}
     .paso h3{margin:0 0 12px;font-size:20px;color:#0a0a0a}
@@ -87,28 +99,31 @@
 
 <main>
   <!-- Hero con foto -->
-  <section class="section hero-donde">
-    <div class="container" style="text-align:center">
-      <img class="hero-img"
-     src="votocongreso-1100.webp" width="1100" height="619"
-     srcset="
-       votocongreso-480.webp 480w,
-       votocongreso-768.webp 768w,
-       votocongreso-1100.webp 1100w,
-       votocongreso-2200.webp 2200w"
-     sizes="(max-width:640px) 95vw, (max-width:1024px) 92vw, 1100px"
-     alt="Consuelo Veloso promoviendo la participación en las elecciones">
-      <h1 class="h2" style="font-size:clamp(28px,4vw,48px);margin:16px 0 6px">
-        🗳️ ¿Dónde voto el domingo 16 de noviembre de 2025?
-      </h1>
-      <p style="font-size:18px;color:#525252;max-width:760px;margin:0 auto 20px">
-        Consulta tu local y mesa en el sitio oficial del Servel. El voto es <strong>obligatorio</strong> y se elige Presidente/a, Diputadas y Diputados, y Senadores en regiones correspondientes.
-      </p>
-      <a href="https://consulta.servel.cl/" target="_blank" rel="noopener noreferrer" class="btn-grande">
-        🔍 Consultar en consulta.servel.cl →
-      </a>
-    </div>
-  </section>
+<section class="section hero-donde">
+  <div class="container" style="text-align:center">
+    <img
+      class="hero-img"
+      src="votocongreso-1100.webp"
+      srcset="
+        votocongreso-480.webp 480w,
+        votocongreso-768.webp 768w,
+        votocongreso-1100.webp 1100w,
+        votocongreso-2200.webp 2200w"
+      sizes="(max-width:640px) 95vw, (max-width:1024px) 92vw, 1100px"
+      alt="Consuelo Veloso promoviendo la participación en las elecciones"
+      width="1100" height="619"
+      loading="eager" decoding="async" fetchpriority="high">
+    <h1 class="h2" style="font-size:clamp(28px,4vw,48px);margin:16px 0 6px">
+      🗳️ ¿Dónde voto el domingo 16 de noviembre de 2025?
+    </h1>
+    <p style="font-size:18px;color:#525252;max-width:760px;margin:0 auto 20px">
+      Consulta tu local y mesa en el sitio oficial del Servel. El voto es <strong>obligatorio</strong> y se elige Presidente/a, Diputadas y Diputados, y Senadores en regiones correspondientes.
+    </p>
+    <a href="https://consulta.servel.cl/" target="_blank" rel="noopener noreferrer" class="btn-grande">
+      🔍 Consultar en consulta.servel.cl →
+    </a>
+  </div>
+</section>
 
   <!-- Importante -->
   <section class="section">
