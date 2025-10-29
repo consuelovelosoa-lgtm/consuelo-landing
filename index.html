@@ -629,9 +629,9 @@ document.getElementById('encuesta-modal')?.addEventListener('click', e => {
     /* fondo con foto + degradado */
     background-image:
       linear-gradient(to bottom,
-        rgba(10,15,25,.28) 0%,
-        rgba(10,15,25,.50) 45%,
-        rgba(10,15,25,.85) 100%),
+        rgba(10,15,25,.15) 0%,
+        rgba(10,15,25,.40) 45%,
+        rgba(10,15,25,.70) 100%),
       url('votacion.webp');
     background-size:cover;
     background-position:center 35%;
@@ -659,18 +659,18 @@ document.getElementById('encuesta-modal')?.addEventListener('click', e => {
   #share-card .list{ margin-top:44px; display:flex; flex-direction:column; gap:28px; }
   #share-card .row{
     display:grid;
-    grid-template-columns: 180px 1fr;             /* col fija para % */
-    align-items:center;
+    grid-template-columns: 200px 1fr;             /* col fija para % */
+    align-items:start;
     column-gap:22px;
   }
   #share-card .pct{
     justify-self:end;                              /* % a la derecha */
-    font-size:72px; font-weight:900; line-height:1;
+    font-size:68px; font-weight:900; line-height:1;
     text-shadow:0 2px 16px rgba(0,0,0,.35);
   }
   #share-card .label{
-    font-size:46px; line-height:1.22; font-weight:800;
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; /* 1 sola línea */
+    font-size:42px; line-height:1.18; font-weight:800;
+    white-space: normal; overflow: visible; text-overflow: clip; /* 1 sola línea */
     text-shadow:0 2px 16px rgba(0,0,0,.35);
   }
 
@@ -684,7 +684,7 @@ document.getElementById('encuesta-modal')?.addEventListener('click', e => {
   }
   #share-card .cta{
     display:inline-flex; align-items:center; justify-content:center;
-    min-width:420px; height:86px; padding:14px 26px;
+    min-width:360px; height:72px; padding:14px 26px;
     border-radius:999px; background:#fff; color:#0a0a0a; border:0;
     font-size:36px; font-weight:900; text-decoration:none;
     box-shadow:0 10px 28px rgba(0,0,0,.25);
