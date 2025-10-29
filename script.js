@@ -2,7 +2,7 @@
 const API_URL    = 'https://script.google.com/macros/s/AKfycbyFza082lJGBzyiZhgzpMQ8HCh0wiMraFTsLElhw7Hy7FStBYOaMsm8eJ5OaaIixhaIPg/exec';
 const API_SECRET = 'encuesta_2025_super_secreto';
 const SURVEY_ID  = 'enc-2025-01'; // cámbialo cuando cambies la pregunta
-const QUESTION   = '¿Cuál es tu prioridad para Maule Sur?';
+const QUESTION = '¿Cuál es tu prioridad\npara el Maule Sur?';
 // ==============================
 
 function getVoterId(){
