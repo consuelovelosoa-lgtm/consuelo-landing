@@ -699,6 +699,8 @@ document.getElementById('encuesta-modal')?.addEventListener('click', e => {
     font-size: 36px !important;
     font-weight: 700;
     opacity: .95;
+    color: #fff; /* ← blanco */
+    text-shadow: 0 2px 12px rgba(0,0,0,.35);
   }
 
   #share-card .cta{
@@ -716,8 +718,10 @@ document.getElementById('encuesta-modal')?.addEventListener('click', e => {
     box-shadow:0 10px 28px rgba(0,0,0,.25);
     white-space:nowrap;
     line-height:1;            /* evita “desnivel” por la fuente */
-    transform: translateY(5px);
+    transform: translateY(-3px);
     margin-top: 6px;
+    min-width: 300px; /* ancho mínimo más grande */
+    padding: 0 32px;  /* más espacio a los lados */
   }
 
 </style>
